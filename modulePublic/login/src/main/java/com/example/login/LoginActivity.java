@@ -37,7 +37,7 @@ import okhttp3.Response;
 @Route(path = "/login/LoginActivity")
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private String Server_IP = "http://192.168.0.83:8080";
+    private String Server_IP = "http://192.168.0.101:8080";
     private String Server_Login = "/user/findUserByPhoneAndPwd";
     private User user;
 
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.putString("name", user.getName());
         editor.putString("phone", user.getPhone());
         editor.putString("email", user.getEmail());
-        editor.putString("photoUrl",user.getPhotoUrl());
+        editor.putString("photo_url",user.getPhotoUrl());
         editor.apply();
         ARouter.getInstance()
                 .build("/app/MainActivity")
@@ -120,13 +120,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         try {
                             String respondData = response.body().string();
                             JSONObject jsonObject = new JSONObject(respondData);
+                            Log.d("LoginActivity", "onResponse: " + respondData);
+                            Log.d("LoginActivity", "onResponse: " + jsonObject.getInt("code"));
                             if (jsonObject.getInt("code") == 0){
                                 JSONObject object = jsonObject.getJSONObject("data");
                                 user = new User();
                                 user.setName(object.getString("name"));
                                 user.setPhone(object.getString("phone"));
                                 user.setEmail(object.getString("email"));
-                                //user.setPhotoUrl(object.getString("photoUrl"));
+                                user.setPhotoUrl(object.getString("icon_Url"));
                                 Log.d("LoginActivity", "onResponse: yes");
                                 handler.sendEmptyMessage(1);
                             }
@@ -166,7 +168,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         if (view.getId() == R.id.find_password){
             ARouter.getInstance()
-                    .build("/login/ForgetPasswordActivity")
+                    .build("/login/FindPasswordVerityActivity")
                     .navigation();
         }
         if (view.getId() == R.id.login_by_code){

@@ -58,6 +58,7 @@ public class IJKVideoPlayerAdapter extends RecyclerView.Adapter<IJKVideoPlayerAd
     private  String name;
     private String email;
     private boolean isLogin;
+    private boolean isInternet;
     private FragmentManager manager;
     private Activity activity;
 
@@ -156,9 +157,9 @@ public class IJKVideoPlayerAdapter extends RecyclerView.Adapter<IJKVideoPlayerAd
         holder.intro.setText(video.intro);
         Log.d("changeVideo", "onBindViewHolder: " + video.intro);
         holder.video_id = video.id;
-        holder.commentFragment = new CommentFragment(holder.video_id,email,photo_url);
+        holder.commentFragment = new CommentFragment(holder.video_id,email,photo_url,name);
         initIcon(holder);
-        setTransitionOnClickListener(holder);
+        setOnClickListener(holder);
     }
 
     @Override
@@ -166,7 +167,15 @@ public class IJKVideoPlayerAdapter extends RecyclerView.Adapter<IJKVideoPlayerAd
         return videoList.size();
     }
 
-    public ViewHolder getViewHolder(View view,RecyclerView recyclerView){
+    public void setIsInternet(boolean internet) {
+        isInternet = internet;
+    }
+
+    public void setLogin(boolean login) {
+        isLogin = login;
+    }
+
+    public ViewHolder getViewHolder(View view, RecyclerView recyclerView){
         ViewHolder viewHolder = (ViewHolder) recyclerView.getChildViewHolder(view);
         return viewHolder;
     }
@@ -189,124 +198,151 @@ public class IJKVideoPlayerAdapter extends RecyclerView.Adapter<IJKVideoPlayerAd
         name = sp.getString("name",null);
         email = sp.getString("email",email);
     }
-    public void setTransitionOnClickListener(ViewHolder holder){
-        if (isLogin){
-            holder.like.setOnClickListener(new View.OnClickListener() {//点赞
-                @Override
-                public void onClick(View view) {
-                    if (view.getId() == R.id.like){
-                        if (holder.like_isCheck){
-                            holder.like_isCheck = false;
-                            holder.like.setImageResource(R.drawable.dislike);
-                            sendDislikeRequire(holder,holder.video_id);
-                        }else {
-                            holder.like_isCheck = true;
-                            holder.like.setImageResource(R.drawable.like);
-                            sendLikeRequire(holder,holder.video_id);
-                        }
-                    }
-                }
-            });
-
-            holder.comment.setOnClickListener(new View.OnClickListener() {//评论
-                @Override
-                public void onClick(View view) {
-                    //Toast.makeText(context,"该功能正在开发中，敬请期待吧！",Toast.LENGTH_LONG).show();
-                    CommentFragment commentFragment = (CommentFragment) manager.findFragmentByTag("CommentFragment");
-                    if (commentFragment == null){
-                        holder.commentFragment.show(manager,"CommentArea");
-                    }
-                }
-            });
-
-            holder.collect.setOnClickListener(new View.OnClickListener() {//收藏
-                @Override
-                public void onClick(View view) {
-                    if (holder.collect_isCheck){
-                        holder.collect_isCheck = false;
-                        holder.collect.setImageResource(R.drawable.dis_collect);
-                        sendCancelCollectRequire(holder,holder.video_id);
-                    }else {
-                        holder.collect_isCheck = true;
-                        holder.collect.setImageResource(R.drawable._collect);
-                        sendCollectRequire(holder,holder.video_id);
-                    }
-                }
-            });
-
-            holder.transmit.setOnClickListener(new View.OnClickListener() {//转发
-                @Override
-                public void onClick(View view) {
-                    holder.dialog.show();
-                    ImageView weChat = holder.bottomSheetDialogView.findViewById(R.id.wechat);
-                    ImageView circle_friends = holder.bottomSheetDialogView.findViewById(R.id.circle_friends);
-                    ImageView qq = holder.bottomSheetDialogView.findViewById(R.id.qq);
-                    ImageView qq_room = holder.bottomSheetDialogView.findViewById(R.id.qq_room);
-                    ImageView link = holder.bottomSheetDialogView.findViewById(R.id.link);
-
-                    weChat.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(context,"已转发至微信",Toast.LENGTH_SHORT).show();
-                            holder.dialog.dismiss();
-                        }
-                    });
-                    circle_friends.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(context,"已转发至微信朋友圈",Toast.LENGTH_SHORT).show();
-                            holder.dialog.dismiss();
-                        }
-                    });
-                    qq.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(context,"已转发至QQ",Toast.LENGTH_SHORT).show();
-                            holder.dialog.dismiss();
-                        }
-                    });
-                    qq_room.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(context,"已转发至QQ空间",Toast.LENGTH_SHORT).show();
-                            holder.dialog.dismiss();
-                        }
-                    });
-                    link.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(context,"链接已复制到剪切板",Toast.LENGTH_SHORT).show();
-                            holder.dialog.dismiss();
-                        }
-                    });
-                }
-            });
-        }else {
+    public void setOnClickListener(ViewHolder holder){
+        if (!isInternet){
             holder.like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context,"请您先登录账号！",Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            holder.collect.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(context,"请您先登录账号！",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"服务器未开启！",Toast.LENGTH_SHORT).show();
                 }
             });
             holder.comment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context,"请您先登录账号！",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"服务器未开启！",Toast.LENGTH_SHORT).show();
+                }
+            });
+            holder.collect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context,"服务器未开启！",Toast.LENGTH_SHORT).show();
                 }
             });
             holder.transmit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context,"请您先登录账号！",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"服务器未开启！",Toast.LENGTH_SHORT).show();
                 }
             });
+        }else {
+            if (isLogin){
+                holder.like.setOnClickListener(new View.OnClickListener() {//点赞
+                    @Override
+                    public void onClick(View view) {
+                        if (view.getId() == R.id.like){
+                            if (holder.like_isCheck){
+                                holder.like_isCheck = false;
+                                holder.like.setImageResource(R.drawable.dislike);
+                                sendDislikeRequire(holder,holder.video_id);
+                            }else {
+                                holder.like_isCheck = true;
+                                holder.like.setImageResource(R.drawable.like);
+                                sendLikeRequire(holder,holder.video_id);
+                            }
+                        }
+                    }
+                });
+
+                holder.comment.setOnClickListener(new View.OnClickListener() {//评论
+                    @Override
+                    public void onClick(View view) {
+                        //Toast.makeText(context,"该功能正在开发中，敬请期待吧！",Toast.LENGTH_LONG).show();
+                        CommentFragment commentFragment = (CommentFragment) manager.findFragmentByTag("CommentFragment");
+                        if (commentFragment == null){
+                            holder.commentFragment.show(manager,"CommentArea");
+                        }
+                    }
+                });
+
+                holder.collect.setOnClickListener(new View.OnClickListener() {//收藏
+                    @Override
+                    public void onClick(View view) {
+                        if (holder.collect_isCheck){
+                            holder.collect_isCheck = false;
+                            holder.collect.setImageResource(R.drawable.dis_collect);
+                            sendCancelCollectRequire(holder,holder.video_id);
+                        }else {
+                            holder.collect_isCheck = true;
+                            holder.collect.setImageResource(R.drawable._collect);
+                            sendCollectRequire(holder,holder.video_id);
+                        }
+                    }
+                });
+
+                holder.transmit.setOnClickListener(new View.OnClickListener() {//转发
+                    @Override
+                    public void onClick(View view) {
+                        holder.dialog.show();
+                        ImageView weChat = holder.bottomSheetDialogView.findViewById(R.id.wechat);
+                        ImageView circle_friends = holder.bottomSheetDialogView.findViewById(R.id.circle_friends);
+                        ImageView qq = holder.bottomSheetDialogView.findViewById(R.id.qq);
+                        ImageView qq_room = holder.bottomSheetDialogView.findViewById(R.id.qq_room);
+                        ImageView link = holder.bottomSheetDialogView.findViewById(R.id.link);
+
+                        weChat.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(context,"已转发至微信",Toast.LENGTH_SHORT).show();
+                                holder.dialog.dismiss();
+                            }
+                        });
+                        circle_friends.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(context,"已转发至微信朋友圈",Toast.LENGTH_SHORT).show();
+                                holder.dialog.dismiss();
+                            }
+                        });
+                        qq.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(context,"已转发至QQ",Toast.LENGTH_SHORT).show();
+                                holder.dialog.dismiss();
+                            }
+                        });
+                        qq_room.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(context,"已转发至QQ空间",Toast.LENGTH_SHORT).show();
+                                holder.dialog.dismiss();
+                            }
+                        });
+                        link.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(context,"链接已复制到剪切板",Toast.LENGTH_SHORT).show();
+                                holder.dialog.dismiss();
+                            }
+                        });
+                    }
+                });
+            }else {
+                holder.like.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(context,"请您先登录账号！",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                holder.collect.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(context,"请您先登录账号！",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                holder.comment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(context,"请您先登录账号！",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                holder.transmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(context,"请您先登录账号！",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         }
     }
 

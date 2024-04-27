@@ -43,7 +43,9 @@ public class MineFragment extends Fragment implements View.OnClickListener,Chang
     LinearLayout personal;
     LinearLayout set;
     SharedPreferences sp;
+    SharedPreferences.Editor editor;
     boolean isLogin;
+    boolean isChange = true;
     String photo_url;
     @Nullable
     @Override
@@ -58,6 +60,7 @@ public class MineFragment extends Fragment implements View.OnClickListener,Chang
 //        register = view.findViewById(R.id.register);
 //        change = view.findViewById(R.id.changePassword);
         sp = getContext().getSharedPreferences("Information", Context.MODE_PRIVATE);
+        editor = sp.edit();
 
         fragment = new ChangeProfilePhotoFragment(this,getContext());
 
@@ -101,13 +104,12 @@ public class MineFragment extends Fragment implements View.OnClickListener,Chang
             }
         }
         if (view.getId() == R.id.college){
-            Intent intent = new Intent(getContext(), CollegeActivity.class);
-            startActivity(intent);
-//            if (isLogin){
-//
-//            }else {
-//                Toast.makeText(getContext(),"请先登陆账号！",Toast.LENGTH_SHORT).show();
-//            }
+            if (isLogin){
+                Intent intent = new Intent(getContext(), CollegeActivity.class);
+                startActivity(intent);
+            }else {
+                Toast.makeText(getContext(),"请先登陆账号！",Toast.LENGTH_SHORT).show();
+            }
         }
         if (view.getId() == R.id.message){
             if (isLogin){
@@ -150,26 +152,52 @@ public class MineFragment extends Fragment implements View.OnClickListener,Chang
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("MineOnResume", "onResume: ");
         getLoginStatus();
     }
 
     @Override
     public void changeProfilePhoto(Bitmap bitmap) {
         Log.d("MinePhoto", "changeProfile: yes");
+        isChange = true;
+        Glide.with(getContext()).clear(profile_photo);
         profile_photo.setImageBitmap(bitmap);
     }
+
+    @Override
+    public void changePhotoUrl(String url) {
+        photo_url = url;
+        editor.putString("photo_url",photo_url);
+        editor.apply();
+        Log.d("changePhotoUrl", "changePhotoUrl: " + sp.getString("photo_url",null));
+    }
+
+
     public void getLoginStatus(){
         isLogin = sp.getBoolean("isLogin",false);
         if (isLogin){
             String Name = sp.getString("name",null);
             name.setText(Name);
+            Log.d("loginPhoto", "getLoginStatus: " + isChange);
+            Log.d("loginPhoto outside", "getLoginStatus: " + photo_url);
+            if (!isChange){
+                String photo_url = sp.getString("photo_url",null);
+                Log.d("loginPhoto inside", "getLoginStatus: " + photo_url);
+                GlideUtil.loadImage(getContext(),profile_photo,photo_url);
+            }
+            Log.d("MineName", "getLoginStatus: " + Name);
+            isChange = false;
+        }else {
+            Log.d("newPhoto", "getLoginStatus: ");
+            name.setText("登陆/注册");
+            profile_photo.setImageResource(R.drawable.default_photo);
         }
         Log.d("Mine", "initWidget:  isLogin " + isLogin);
     }
     public void initProfilePhoto(){
         photo_url = sp.getString("photo_url",null);
-        photo_url = photo_url;
         GlideUtil.loadImage(getContext(),profile_photo,photo_url);
+        isChange = false;
         Log.d("Glide", "getLoginStatus:  GlideProfile");
     }
 }

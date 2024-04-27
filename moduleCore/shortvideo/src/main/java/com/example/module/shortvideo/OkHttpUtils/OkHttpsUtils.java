@@ -2,6 +2,8 @@ package com.example.module.shortvideo.OkHttpUtils;
 
 import android.util.Log;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -18,8 +20,13 @@ import okhttp3.RequestBody;
 
 public class OkHttpsUtils {
     public static void sendApplyLoginVideoRequest(String url,String email ,okhttp3.Callback callback) {
-        OkHttpClient client  = new OkHttpClient();
+        OkHttpClient client  = new OkHttpClient.Builder()
+                .connectTimeout(3, TimeUnit.SECONDS)
+                .readTimeout(3,TimeUnit.SECONDS)
+                .build();
+
         Log.d("okhttp", "sendApplyLoginVideoRequest: " + url);
+
         HttpUrl.Builder builder = HttpUrl.parse(url).newBuilder();
         builder.addQueryParameter("email",email);
         String newUrl = builder.build().toString();
@@ -33,7 +40,10 @@ public class OkHttpsUtils {
     }
 
     public static void sendApplyUnLoginVideoRequest(String url,okhttp3.Callback callback) {
-        OkHttpClient client  = new OkHttpClient();
+        OkHttpClient client  = new OkHttpClient.Builder()
+                .connectTimeout(3, TimeUnit.SECONDS)
+                .readTimeout(3,TimeUnit.SECONDS)
+                .build();
 
         Request request = new Request.Builder()
                 .url(url)
@@ -47,13 +57,15 @@ public class OkHttpsUtils {
         OkHttpClient client = new OkHttpClient();
 
         RequestBody body = new FormBody.Builder()
-                .add("vedio_id",video_id)
+                .add("vedioId",video_id)
                 .build();
 
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
+        HttpUrl httpUrl = request.url();
+        Log.d("ApplyComment", "sendApplyCommentRequire: " + httpUrl.toString());
         client.newCall(request).enqueue(callback);
     }
 

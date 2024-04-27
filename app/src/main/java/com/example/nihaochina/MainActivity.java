@@ -161,4 +161,9 @@ public class MainActivity extends AppCompatActivity {
         super.onPostResume();
         getLoginState();
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//    }
 }

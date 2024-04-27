@@ -72,7 +72,9 @@ public class ChangeProfilePhotoFragment extends BottomSheetDialogFragment implem
     TextView cancel;
     SharedPreferences sp;
     String email;
+    String photo_url;
     File outputImage;
+    Bitmap bitmap;
 
     public ChangeProfilePhotoFragment(ChangeProfilePhotoListener listener,Context context) {
         this.listener = listener;
@@ -100,14 +102,15 @@ public class ChangeProfilePhotoFragment extends BottomSheetDialogFragment implem
         cancel.setOnClickListener(this);
     }
 
-//    private Handler handler = new Handler(Looper.getMainLooper()){
-//        @Override
-//        public void handleMessage(@NonNull Message msg) {
-//            super.handleMessage(msg);
-//
-//            Log.d("ChangeProfilePhoto", "onResponse: " + (String)msg.obj );
-//        }
-//    };
+    private Handler handler = new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            listener.changePhotoUrl(photo_url);
+            dismiss();
+            Log.d("ChangeProfilePhoto", "onResponse: " + (String)msg.obj );
+        }
+    };
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -139,14 +142,13 @@ public class ChangeProfilePhotoFragment extends BottomSheetDialogFragment implem
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
                     try {
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(photo_uri));
+                        bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(photo_uri));
                         listener.changeProfilePhoto(bitmap);
                         upLoadPhoto(outputImage);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                 }
-                this.dismiss();
                 break;
             case CHOOSE_PHOTO:
                 if (resultCode == RESULT_OK){
@@ -163,20 +165,19 @@ public class ChangeProfilePhotoFragment extends BottomSheetDialogFragment implem
                     }else {
                         Toast.makeText(getContext(),"failed to get image",Toast.LENGTH_SHORT).show();
                     }
-                    this.dismiss();
                 }
                 break;
             default:
+                this.dismiss();
                 break;
         }
     }
 
     public void upLoadPhoto(File file){
         Log.d("UpLoadPhoto", "upLoadPhoto: " + Server_IP + Server_LoadUpPhoto);
-        OKhttpUtils.sendUpLoadPhoto(Server_IP + Server_LoadUpPhoto,email,file , new Callback() {
+        OKhttpUtils.sendUpLoadPhoto(Server_IP + Server_LoadUpPhoto,email,file, new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
             }
 
             @Override
@@ -186,13 +187,8 @@ public class ChangeProfilePhotoFragment extends BottomSheetDialogFragment implem
                     JSONObject jsonObject = new JSONObject(respondData);
                     Log.d("ChangeProfilePhoto", "onResponse: in" + respondData);
                     if (jsonObject.getInt("code") == 200){
-                        Log.d("ChangeProfilePhoto", "onResponse: " + respondData);
-                        String photoUrl = jsonObject.getString("data");
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putString("photo_url",photoUrl);
-                        Log.d("return_url", "onResponse: " + photoUrl);
-                        editor.apply();
-                        //handler.sendMessage(message);
+                        photo_url = jsonObject.getString("data");
+                        handler.sendEmptyMessage(1);
                     }
                     else {
 //                        getActivity().runOnUiThread(new Runnable() {

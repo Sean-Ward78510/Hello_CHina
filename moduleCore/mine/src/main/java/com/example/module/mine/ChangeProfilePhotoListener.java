@@ -9,4 +9,5 @@ import android.graphics.Bitmap;
  */
 interface ChangeProfilePhotoListener {
     void changeProfilePhoto(Bitmap bitmap);
+    void changePhotoUrl(String url);
 }

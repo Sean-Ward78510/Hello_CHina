@@ -52,6 +52,7 @@ public class CommentFragment extends BottomSheetDialogFragment implements View.O
     String video_id;
     String email;
     String phone_url;
+    String name;
     EditText editText;
     ImageView cancel;
     Button send;
@@ -81,10 +82,11 @@ public class CommentFragment extends BottomSheetDialogFragment implements View.O
         return view;
     }
 
-    public CommentFragment(String video_id,String email,String phone_url) {
+    public CommentFragment(String video_id,String email,String phone_url,String name) {
         this.video_id = video_id;
         this.email = email;
         this.phone_url = phone_url;
+        this.name = name;
         comments = new ArrayList<>();
     }
 
@@ -108,7 +110,6 @@ public class CommentFragment extends BottomSheetDialogFragment implements View.O
     }
 
     public void changeComments(){
-        editText.setText("");
         adapter = new CommentAdapter(getContext(),comments);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -126,6 +127,7 @@ public class CommentFragment extends BottomSheetDialogFragment implements View.O
                 try {
                     String respondData = response.body().string();
                     JSONObject jsonObject = new JSONObject(respondData);
+                    Log.d("ApplyComment", "onResponse: " + video_id);
                     Log.d("ApplyComment", "onResponse: " + respondData);
                     Log.d("ApplyComment", "onResponse: " + jsonObject.getInt("code"));
                     if (jsonObject.getInt("code") == 200){
@@ -134,10 +136,10 @@ public class CommentFragment extends BottomSheetDialogFragment implements View.O
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject object = array.getJSONObject(i);
                             Comment comment = new Comment();
-                            comment.name = object.getString("name");
-                            comment.photo_url = object.getString("url");
-                            comment.text = object.getString("text");
-                            comment.time = object.getString("time");
+                            comment.name = object.getString("userName");
+                            comment.photo_url = object.getString("userIcon");
+                            comment.text = object.getString("content");
+                            comment.time = object.getString("publishTime");
                             comments.add(comment);
                         }
                         Log.d("LoginActivity", "onResponse: yes");
@@ -155,12 +157,12 @@ public class CommentFragment extends BottomSheetDialogFragment implements View.O
 
     public void sendComment(){
         String content = String.valueOf(editText.getText());
+        editText.setText("");
         String time = getCurrentTime();
         OkHttpsUtils.sendCommentRequire(Server_IP + Server_Send_Comment, video_id, email,
                 content, time, new Callback() {
                     @Override
                     public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
                     }
 
                     @Override
@@ -173,6 +175,7 @@ public class CommentFragment extends BottomSheetDialogFragment implements View.O
                                 comment.text = content;
                                 comment.time = time;
                                 comment.photo_url = phone_url;
+                                comment.name = name;
                                 comments.add(comment);
                                 Log.d("LoginActivity", "onResponse: yes");
                                 handler.sendEmptyMessage(2);

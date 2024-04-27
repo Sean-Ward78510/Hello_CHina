@@ -58,5 +58,4 @@ public class CollegeActivity extends AppCompatActivity {
             return 2;
         }
     }
-
-    }
+}

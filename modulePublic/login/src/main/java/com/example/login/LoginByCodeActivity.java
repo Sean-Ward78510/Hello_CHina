@@ -33,8 +33,9 @@ import okhttp3.Response;
 @Route(path = "/login/LoginByCodeActivity")
 public class LoginByCodeActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private String Server_IP = "http://192.168.0.83:8080";
-    private String Server_Login_byCode = "/user/code";
+    private String Server_IP = "http://192.168.0.101:8080";
+    private String Server_Login_byCode = "/user/login/code";
+    private String Server_getCode = "/user/code";
     private User user;
     private String returnCode;
 
@@ -84,7 +85,7 @@ public class LoginByCodeActivity extends AppCompatActivity implements View.OnCli
         editor.putString("name", user.getName());
         editor.putString("phone", user.getPhone());
         editor.putString("email", user.getEmail());
-        editor.putString("photoUrl",user.getPhotoUrl());
+        editor.putString("photo_url",user.getPhotoUrl());
         editor.apply();
 
         ARouter.getInstance()
@@ -99,13 +100,13 @@ public class LoginByCodeActivity extends AppCompatActivity implements View.OnCli
                 try {
                     String respondData = response.body().string();
                     JSONObject jsonObject = new JSONObject(respondData);
-                    if (jsonObject.getInt("code") == 0){
+                    if (jsonObject.getInt("code") == 200){
                         JSONObject object = jsonObject.getJSONObject("data");
                         user = new User();
                         user.setName(object.getString("name"));
                         user.setPhone(object.getString("phone"));
                         user.setEmail(object.getString("email"));
-                        //user.setPhotoUrl(object.getString("photoUrl"));
+                        user.setPhotoUrl(object.getString("icon_Url"));
                         Log.d("LoginActivity", "onResponse: yes");
                         handler.sendEmptyMessage(1);
                     }
@@ -126,7 +127,7 @@ public class LoginByCodeActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void GetCode(){
-        OkHttpUtil.sendPostCodeRequest(Server_IP + Server_Login_byCode, email.getText().toString(), new Callback() {
+        OkHttpUtil.sendPostCodeRequest(Server_IP + Server_getCode, email.getText().toString(), new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
             }
@@ -136,7 +137,7 @@ public class LoginByCodeActivity extends AppCompatActivity implements View.OnCli
                 String respondDate = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(respondDate);
-                    if (jsonObject.getInt("code") == 0){
+                    if (jsonObject.getInt("code") == 200){
                         returnCode = jsonObject.getString("data");
                         Log.d("LoginByCode", "onResponse: " + returnCode);
                         runOnUiThread(new Runnable() {

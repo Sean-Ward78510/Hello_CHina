@@ -3,11 +3,13 @@ package com.example.module.mine.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +32,7 @@ import okhttp3.Response;
 public class PersonalActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String Server_IP = "http://192.168.0.101:8080";
-    private String Server_ModifyInfo = "";
+    private String Server_ModifyInfo = "/user/update/info";
     EditText edit_name;
     EditText edit_phone;
     EditText edit_email;
@@ -46,6 +48,7 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
     boolean is_m_name;
     boolean is_m_phone;
     boolean is_m_email;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
     };
 
     public void initWidget(){
+        context = PersonalActivity.this;
         edit_name = findViewById(R.id.name);
         edit_phone = findViewById(R.id.phone);
         edit_email = findViewById(R.id.email);
@@ -74,6 +78,10 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
         name = sp.getString("name",null);
         phone = sp.getString("phone",null);
         email = sp.getString("email",null);
+
+        m_name = name;
+        m_phone = phone;
+        m_email = email;
 
         edit_name.setText(name);
         edit_phone.setText(phone);
@@ -120,6 +128,7 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void ChangeInformation(){
+        Log.d("ModifyInformation", "ChangeInformation: successful!");
         edit_name.setText(m_name);
         edit_phone.setText(m_phone);
         edit_email.setText(m_email);
@@ -132,9 +141,10 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
         editor.putString("phone",phone);
         editor.putString("email",email);
         editor.apply();
+        Toast.makeText(context,"修改信息成功！",Toast.LENGTH_SHORT).show();
     }
     public void sendModifyInformation(){
-        OkHttpUtil.sendModifyInformation(Server_IP + Server_ModifyInfo, name, phone, email, new Callback() {
+        OkHttpUtil.sendModifyInformation(Server_IP + Server_ModifyInfo, email,m_name, m_phone, m_email, new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
@@ -145,9 +155,9 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
                 String respondData =response.body().string();
                 try {
                     JSONObject object = new JSONObject(respondData);
+                    Log.d("ModifyInformation", "onResponse: " + respondData);
                     if (object.getInt("code") == 200){
                         handler.sendEmptyMessage(1);
-                        Toast.makeText(PersonalActivity.this,"修改信息成功！",Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
@@ -159,7 +169,14 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.modify){
+            edit_email.clearFocus();
+            edit_name.clearFocus();
+            edit_phone.clearFocus();
+            Log.d("ModifyInformation", "onClick: "+m_name);
+            Log.d("ModifyInformation", "onClick: "+m_phone);
+            Log.d("ModifyInformation", "onClick: "+m_email);
             if (is_m_name || is_m_phone || is_m_email){
+                Log.d("ModifyInformation", "onClick: ");
                 sendModifyInformation();
             }
         }

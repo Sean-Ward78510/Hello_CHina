@@ -51,6 +51,7 @@ dependencies {
     api support.bumptech
     api support.okhttp
     api support.gson
+    api support.tablayout
 
     annotationProcessor libARouterCompiler
     testImplementation 'junit:junit:4.13.2'

@@ -37,7 +37,7 @@ import okhttp3.Response;
 @Route(path = "/login/RegisterActivity")
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private String Server_IP = "http://192.168.0.83:8080/";
+    private String Server_IP = "http://192.168.0.101:8080/";
     private String Server_Register = "user/createUser";
     private String Server_Send_Code = "user/code";
     private User user;
@@ -302,7 +302,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
         if (view.getId() == R.id.get_security_code){
             Log.d("getCodeRes", "onClick: ");
-            GetCode();
+            if(email.getText().toString().isEmpty()){
+                Toast.makeText(this,"邮箱不为能空！",Toast.LENGTH_SHORT).show();
+            }else {
+                GetCode();
+            }
         }
         if (view.getId() == R.id.register_button){
             confirm_password.clearFocus();

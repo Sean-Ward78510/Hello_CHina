@@ -19,6 +19,15 @@ public class Video {
     public Video() {
     }
 
+    public Video(String id, String name, String url, String intro, boolean isLike, boolean isCollect) {
+        this.id = id;
+        this.name = name;
+        this.url = url;
+        this.intro = intro;
+        this.isLike = isLike;
+        this.isCollect = isCollect;
+    }
+
     @Override
     public String toString() {
         return "Video{" +

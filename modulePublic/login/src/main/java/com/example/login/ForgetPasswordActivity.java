@@ -40,7 +40,7 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
     @Autowired(name = "email")
     public String info_email;
 
-    private String Server_IP = "169.254.225.195";
+    private String Server_IP = "http://192.168.0.101:8080";
     private String Server_ModifyPassword = "/user/updatePasswordByPhone";
     private EditText password;
     private EditText confirm_password;
@@ -135,7 +135,7 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
         });
     }
     public void sendModifyRequire(){
-        OkHttpUtil.sendPostModifyPasswordRequest(Server_IP + Server_ModifyPassword, password.getText().toString(), new Callback() {
+        OkHttpUtil.sendPostModifyPasswordRequest(Server_IP + Server_ModifyPassword, info_email,password.getText().toString(), new Callback() {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 try {
@@ -177,17 +177,16 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
         editor.putString("email", user.getEmail());
         editor.apply();
         ARouter.getInstance()
-                .build("/login/ModifyPasswordActivity")
+                .build("/login/LoginActivity")
                 .navigation();
     }
     public void exitAccount(){
-        sp = getSharedPreferences("Login_State",MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean("isLogin",false);
         editor.putString("name",null);
         editor.putString("phone",null);
         editor.putString("email",null);
-        editor.putString("photo",null);
+        editor.putString("photo_url",null);
         editor.apply();
     }
 

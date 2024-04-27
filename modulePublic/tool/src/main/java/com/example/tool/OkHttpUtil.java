@@ -65,9 +65,10 @@ public class OkHttpUtil {
 
         client.newCall(request).enqueue(callback);
     }
-    public static void sendPostModifyPasswordRequest(String url, String password, okhttp3.Callback callback) {
+    public static void sendPostModifyPasswordRequest(String url, String email,String password, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
+                .add("email",email)
                 .add("password",password)
                 .build();
 
@@ -120,13 +121,14 @@ public class OkHttpUtil {
         client.newCall(request).enqueue(callback);
     }
 
-    public static void sendModifyInformation(String url,String name,String phone,String email,okhttp3.Callback callback){
+    public static void sendModifyInformation(String url,String email,String m_name,String m_phone,String m_email,okhttp3.Callback callback){
         OkHttpClient client = new OkHttpClient();
 
         RequestBody body = new FormBody.Builder()
-                .add("name",name)
-                .add("phone",phone)
-                .add("email",email)
+                .add("oldEmail",email)
+                .add("phone",m_phone)
+                .add("newEmail",m_email)
+                .add("name",m_name)
                 .build();
 
         Request request = new Request.Builder()

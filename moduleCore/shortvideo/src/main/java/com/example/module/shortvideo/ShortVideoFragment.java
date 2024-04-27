@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,7 +46,8 @@ import okhttp3.Response;
 public class ShortVideoFragment extends Fragment{
 
     private String Server_IP = "http://192.168.0.101:8080";
-    private String Server_Apply_Video = "/vedio/login/list";
+    private String Server_Apply_LoginVideo = "/vedio/login/list";
+    private String Server_Apply_UnLoginVideo = "/vedio/list";
     private List<Video> videoList;
     private RecyclerView recyclerView;
     View view;
@@ -57,6 +59,7 @@ public class ShortVideoFragment extends Fragment{
 
     private SharedPreferences sp;
     private boolean isLogin;
+    private boolean isInternet = true;
     private String email;
 
 
@@ -96,7 +99,14 @@ public class ShortVideoFragment extends Fragment{
         @Override
         public void handleMessage(@NonNull Message msg) {
             //initVedio();
-            changeVideo();
+            switch (msg.what){
+                case 1:
+                    changeVideo();
+                    break;
+                case 2:
+                    initNotInternetVideo();
+                    break;
+            }
         }
     };
 
@@ -123,7 +133,7 @@ public class ShortVideoFragment extends Fragment{
         videoList = new ArrayList<>();
         if (isLogin){
             Log.d("initVideo", "initVideo: 111");
-            Log.d("initVideo", "initVideo: " + Server_IP + Server_Apply_Video);
+            Log.d("initVideo", "initVideo: " + Server_IP + Server_Apply_LoginVideo);
             ApplyLoginVideo();
         }else {
             Log.d("initVideo", "initVideo: 222");
@@ -136,18 +146,21 @@ public class ShortVideoFragment extends Fragment{
         //LinearLayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         pageLayoutManager = new PageLayoutManager(getContext(), OrientationHelper.VERTICAL);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (!recyclerView.canScrollVertically(1)){
-                    if (isLogin){
-                        Log.d("changeVideo", "onScrolled: isLogin");
-                        ApplyLoginVideo();
-                    }else {
-                        Log.d("changeVideo", "onScrolled: is not Login");
-                        ApplyUnLoginVideo();
+                if (isInternet){
+                    if (!recyclerView.canScrollVertically(1)){
+                        if (isLogin){
+                            Log.d("changeVideo", "onScrolled: isLogin");
+                            ApplyLoginVideo();
+                        }else {
+                            Log.d("changeVideo", "onScrolled: is not Login");
+                            ApplyUnLoginVideo();
+                        }
                     }
+                }else {
+                    Toast.makeText(getContext(),"服务器未开启！",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -170,7 +183,7 @@ public class ShortVideoFragment extends Fragment{
         });
 
         recyclerView.setLayoutManager(pageLayoutManager);
-        adapter = new IJKVideoPlayerAdapter(getContext(),videoList,isLogin, getActivity().getSupportFragmentManager(), getActivity());
+        adapter = new IJKVideoPlayerAdapter(getContext(),videoList,isLogin,getActivity().getSupportFragmentManager(), getActivity());
         recyclerView.setAdapter(adapter);
     }
     private void playVideo(int position,View view){//播放视频\
@@ -214,6 +227,9 @@ public class ShortVideoFragment extends Fragment{
         Log.d("ShortVideo", "onResume: 444");
         sp = getContext().getSharedPreferences("Information", Context.MODE_PRIVATE);
         isLogin = sp.getBoolean("isLogin",false);
+        adapter.setLogin(isLogin);
+        adapter.getInformation();
+        adapter.notifyDataSetChanged();
         //GSYVideoManager.onResume();
     }
 
@@ -249,10 +265,32 @@ public class ShortVideoFragment extends Fragment{
             ijkVideoView.resume();
         }
     }
+
+    public void initNotInternetVideo(){
+        Log.d("NoNet", "initNotInternetVideo: ");
+        Video video1 = new Video("13","鸣沙山月牙泉","http://sb474wnni.hb-bkt.clouddn.com/53b54a5ec4d304d6de31eed34f5247dd.mp4","美丽的月牙泉",false,false);
+        Video video2 = new Video("14","传统婚礼","http://sb474wnni.hb-bkt.clouddn.com/5c68381b5f09074eaadcc6132906a38d.mp4","那个备婚两年刷爆全网的汉服婚礼正片来啦",false,false);
+        Video video3 = new Video("15","舌尖上的中国——松茸","http://sb474wnni.hb-bkt.clouddn.com/6a8c2855848372ff211a36bfd13bf4e6.mp4","你知道松茸为什么这么贵吗？",false,false);
+        Video video4 = new Video("16","手抓羊肉","http://sb474wnni.hb-bkt.clouddn.com/4b08357c4b20c84c57a6de96c1a912bd.mp4","煮羊肉时不放盐，出锅装盘才放盐。这羊肉好嫩，想吃！",false,false);
+        Video video5 = new Video("17","风味人间--蟹","http://sb474wnni.hb-bkt.clouddn.com/75813cbd07d6468e00c0d9c38d804960.mp4","风味人间——蟹",false,false);
+        Video video6 = new Video("18","中国吉祥年","http://sb474wnni.hb-bkt.clouddn.com/8baaef752e0854ae5051d96b8f13e98a.mp4","团圆年｜我们的文化中国年：龙行龘龘",false,false);
+        videoList.add(video1);
+        videoList.add(video2);
+        videoList.add(video3);
+        videoList.add(video4);
+        videoList.add(video5);
+        videoList.add(video6);
+        adapter.notifyDataSetChanged();
+    }
+
     public void ApplyLoginVideo(){
-        OkHttpsUtils.sendApplyLoginVideoRequest(Server_IP + Server_Apply_Video,email, new Callback() {
+        OkHttpsUtils.sendApplyLoginVideoRequest(Server_IP + Server_Apply_LoginVideo,email, new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.d("NoNet", "onFailure: ");
+                isInternet = false;
+                adapter.setIsInternet(false);
+                handler.sendEmptyMessage(2);
             }
 
             @Override
@@ -277,6 +315,7 @@ public class ShortVideoFragment extends Fragment{
                             video.isCollect = object.getBoolean("collect");
                             videoList.add(video);
                         }
+                        adapter.setIsInternet(true);
                         Log.d("ApplyLoginVideo", "onResponse: yes + " + videoList.size());
                         handler.sendEmptyMessage(1);
                     }
@@ -288,10 +327,12 @@ public class ShortVideoFragment extends Fragment{
     }
 
     public void ApplyUnLoginVideo(){
-        OkHttpsUtils.sendApplyUnLoginVideoRequest(Server_IP + Server_Apply_Video, new Callback() {
+        OkHttpsUtils.sendApplyUnLoginVideoRequest(Server_IP + Server_Apply_UnLoginVideo, new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
+                isInternet = false;
+                adapter.setIsInternet(false);
+                handler.sendEmptyMessage(2);
             }
 
             @Override
@@ -299,21 +340,23 @@ public class ShortVideoFragment extends Fragment{
                 try {
                     String respondData = response.body().string();
                     JSONObject jsonObject = new JSONObject(respondData);
+                    Log.d("ApplyUnLoginVideo", "onResponse: " + respondData);
                     if (jsonObject.getInt("code") == 200){
                         JSONObject object;
                         JSONArray array = jsonObject.getJSONArray("data");
                         for (int i = 1; i < array.length(); i++) {
                             object = array.getJSONObject(i);
                             Video vedio = new Video();
-                            vedio.id = object.getString("video_id");
+                            vedio.id = object.getString("vedioId");
                             vedio.name = object.getString("name");
                             vedio.url = object.getString("url");
-                            vedio.intro = object.getString("intro");
-                            vedio.isLike = object.getBoolean("isLike");
-                            vedio.isCollect = object.getBoolean("isCollect");
+                            vedio.intro = object.getString("title");
+                            vedio.isLike = object.getBoolean("like");
+                            vedio.isCollect = object.getBoolean("collect");
                             videoList.add(vedio);
                         }
                         Log.d("LoginActivity", "onResponse: yes");
+                        adapter.setIsInternet(true);
                         handler.sendEmptyMessage(1);
                     }
                 } catch (JSONException e) {

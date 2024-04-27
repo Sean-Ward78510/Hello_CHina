@@ -36,8 +36,8 @@ import okhttp3.Response;
 @Route(path = "/login/ChangePasswordActivity")
 public class ChangePasswordActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private String Server_IP = "http://192.168.0.83:8080";
-    private String Server_ChangePassword = "/user/updateNewPassword";
+    private String Server_IP = "http://192.168.0.101:8080";
+    private String Server_ChangePassword = "/user/update/password";
     private EditText old_password;
     private EditText new_password;
     private EditText confirm_password;
@@ -158,6 +158,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
                             String respondData = response.body().string();
                             JSONObject jsonObject = new JSONObject(respondData);
                             Log.d("ChangeActivity", "onResponse:  " + jsonObject.getInt("code"));
+                            Log.d("ChangeActivity", "onResponse:  " + respondData);
                             if (jsonObject.getInt("code") == 0){
                                 Log.d("ChangeActivity", "onResponse: yes");
                                 old_password_format.setVisibility(View.GONE);
