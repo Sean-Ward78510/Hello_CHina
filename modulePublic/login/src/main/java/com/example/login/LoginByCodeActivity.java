@@ -156,6 +156,7 @@ public class LoginByCodeActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View view) {
+        String userEmail = email.getText().toString();
         if (view.getId() == R.id.get_security_code){
             GetCode();
         }
