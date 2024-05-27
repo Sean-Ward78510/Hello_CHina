@@ -179,7 +179,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         if (view.getId() == R.id.login){
             Log.d("LoginActivity", "onClick: ");
-            sandRequire(this,Server_IP + Server_Login,account.getText().toString(),password.getText().toString());
+            //sandRequire(this,Server_IP + Server_Login,account.getText().toString(),password.getText().toString());
+            sp = getSharedPreferences("Information",MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("isLogin",true);
+            editor.putString("name", "hhh");
+            editor.putString("phone", "18477591278");
+            editor.putString("email", "785103566@qq.com");
+            editor.putString("photo_url","https://tse3-mm.cn.bing.net/th/id/OIP-C.ABm4Ol2IVM6H2d5k0YIXQwHaHg?rs=1&pid=ImgDetMain");
+            editor.apply();
+            ARouter.getInstance()
+                    .build("/app/MainActivity")
+                    .navigation();
         }
         if (view.getId() == R.id.eye){
             if (isHide){

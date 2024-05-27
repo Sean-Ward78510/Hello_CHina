@@ -114,11 +114,11 @@ public class MineFragment extends Fragment implements View.OnClickListener,Chang
         if (view.getId() == R.id.message){
             if (isLogin){
                 Log.d("Mine", "click" + isLogin);
-//                ARouter.getInstance()
-//                        .build("/mine/MessageActivity")
-//                        .navigation();
-                Intent intent = new Intent(getContext(), MessageActivity.class);
-                startActivity(intent);
+                ARouter.getInstance()
+                        .build("/mine/MessageActivity")
+                        .navigation();
+//                Intent intent = new Intent(getContext(), MessageActivity.class);
+//                startActivity(intent);
 
             }else {
                 Toast.makeText(getContext(),"请先登陆账号！",Toast.LENGTH_SHORT).show();
