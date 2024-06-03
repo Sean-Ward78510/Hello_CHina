@@ -1,8 +1,5 @@
 package com.example.module.mine.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,9 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.example.login.Util.OkHttpUtil;
 import com.example.module.mine.R;
-import com.example.tool.OkHttpUtil;
+import com.example.tool.Util.SERVER_IP;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,8 +32,8 @@ import okhttp3.Response;
 @Route(path = "/mine/PersonalActivity")
 public class PersonalActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String Server_IP = "http://192.168.0.101:8080";
-    private String Server_ModifyInfo = "/user/update/info";
+    private String Server_IP = SERVER_IP.Server_IP;
+    private String Server_ModifyInfo = SERVER_IP.Server_ModifyInfo;
     EditText edit_name;
     EditText edit_phone;
     EditText edit_email;

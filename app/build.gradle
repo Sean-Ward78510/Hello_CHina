@@ -16,6 +16,10 @@ android {
         versionCode androidId.versionCode
         versionName androidId.versionName
 
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+        }
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {

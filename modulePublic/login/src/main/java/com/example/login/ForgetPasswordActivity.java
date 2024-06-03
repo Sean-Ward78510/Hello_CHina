@@ -21,7 +21,8 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.module.login.R;
 import com.example.tool.Entity.User;
-import com.example.tool.OkHttpUtil;
+import com.example.login.Util.OkHttpUtil;
+import com.example.tool.Util.SERVER_IP;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,8 +41,8 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
     @Autowired(name = "email")
     public String info_email;
 
-    private String Server_IP = "http://192.168.0.101:8080";
-    private String Server_ModifyPassword = "/user/updatePasswordByPhone";
+    private String Server_IP = SERVER_IP.Server_IP;
+    private String Server_ModifyPassword = SERVER_IP.Server_ModifyPassword;
     private EditText password;
     private EditText confirm_password;
     private Button modify;

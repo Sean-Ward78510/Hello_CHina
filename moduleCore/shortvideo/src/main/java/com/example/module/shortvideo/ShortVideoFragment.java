@@ -1,6 +1,5 @@
 package com.example.module.shortvideo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,6 +26,7 @@ import com.example.module.shortvideo.OkHttpUtils.OkHttpsUtils;
 import com.example.module.shortvideo.Tool.IJKVideoPlayerAdapter;
 import com.example.module.shortvideo.Tool.OnViewPagerListener;
 import com.example.module.shortvideo.Tool.PageLayoutManager;
+import com.example.tool.Util.SERVER_IP;
 //import com.example.module.shortvideo.Tool.VideoAdapter;
 //import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
@@ -45,9 +45,9 @@ import okhttp3.Response;
 @Route(path = "/module/shortvideo/ShortVideoFragment")
 public class ShortVideoFragment extends Fragment{
 
-    private String Server_IP = "http://192.168.0.101:8080";
-    private String Server_Apply_LoginVideo = "/vedio/login/list";
-    private String Server_Apply_UnLoginVideo = "/vedio/list";
+    private String Server_IP = SERVER_IP.Server_IP;
+    private String Server_Apply_LoginVideo = SERVER_IP.Server_Apply_Video;
+    private String Server_Apply_UnLoginVideo = SERVER_IP.Server_Apply_UnLoginVideo;
     private List<Video> videoList;
     private RecyclerView recyclerView;
     View view;
@@ -134,10 +134,10 @@ public class ShortVideoFragment extends Fragment{
         if (isLogin){
             Log.d("initVideo", "initVideo: 111");
             Log.d("initVideo", "initVideo: " + Server_IP + Server_Apply_LoginVideo);
-            ApplyLoginVideo();
+            //ApplyLoginVideo();
         }else {
             Log.d("initVideo", "initVideo: 222");
-            ApplyUnLoginVideo();
+            //ApplyUnLoginVideo();
         }
     }
 
@@ -153,10 +153,10 @@ public class ShortVideoFragment extends Fragment{
                     if (!recyclerView.canScrollVertically(1)){
                         if (isLogin){
                             Log.d("changeVideo", "onScrolled: isLogin");
-                            ApplyLoginVideo();
+//                            ApplyLoginVideo();
                         }else {
                             Log.d("changeVideo", "onScrolled: is not Login");
-                            ApplyUnLoginVideo();
+//                            ApplyUnLoginVideo();
                         }
                     }
                 }else {

@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,8 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dueeeke.videoplayer.util.L;
 import com.example.module.mine.Utils.OKhttpUtils;
+import com.example.tool.Util.SERVER_IP;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,18 +26,15 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 
 
 public class FirstFragment extends Fragment {
-    private String Server_IP = "http://192.168.0.101:8080/";
-    private String Server_Collect = "article/collect";
+    private String Server_IP = SERVER_IP.Server_IP;
+    private String Server_Collect = SERVER_IP.Server_getCustom_CollegeArticleList;
     SharedPreferences sp;
     String email;
     private RecyclerView recyclerView;

@@ -34,6 +34,7 @@ import androidx.core.content.FileProvider;
 
 import com.example.module.mine.Utils.OKhttpUtils;
 import com.example.module.mine.Utils.PhotoUtils;
+import com.example.tool.Util.SERVER_IP;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.json.JSONException;
@@ -57,8 +58,8 @@ import okhttp3.Response;
 
 public class ChangeProfilePhotoFragment extends BottomSheetDialogFragment implements View.OnClickListener{
 
-    private String Server_IP = "http://192.168.0.101:8080";
-    private String Server_LoadUpPhoto = "/user/icon/url";
+    private String Server_IP = SERVER_IP.Server_IP;
+    private String Server_LoadUpPhoto = SERVER_IP.Server_LoadUpPhoto;
     ChangeProfilePhotoListener listener;
     Context context;
 

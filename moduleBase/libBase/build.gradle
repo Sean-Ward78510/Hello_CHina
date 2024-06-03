@@ -52,6 +52,8 @@ dependencies {
     api support.okhttp
     api support.gson
     api support.tablayout
+    api support.X5Web
+    api support.Gecko
 
     annotationProcessor libARouterCompiler
     testImplementation 'junit:junit:4.13.2'

@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat;
 
 public class LoadingAnimation {
     ImageView imageView;
-    TextView textView;
     ObjectAnimator animator1;
     ObjectAnimator animator2;
     ObjectAnimator animator3;

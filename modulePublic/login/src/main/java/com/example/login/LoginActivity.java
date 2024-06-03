@@ -17,13 +17,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.module.login.R;
 import com.example.tool.Entity.User;
-import com.example.tool.OkHttpUtil;
+import com.example.login.Util.OkHttpUtil;
+import com.example.tool.Util.SERVER_IP;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,8 +37,8 @@ import okhttp3.Response;
 @Route(path = "/login/LoginActivity")
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private String Server_IP = "http://192.168.0.101:8080";
-    private String Server_Login = "/user/findUserByPhoneAndPwd";
+    private String Server_IP = SERVER_IP.Server_IP;
+    private String Server_Login = SERVER_IP.Server_Login;
     private User user;
 
     private SharedPreferences sp;
@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .navigation();
     }
     public void sandRequire(Context context, String url, String phone, String password){
+        Log.d("sandLoginURL", "sandRequire: "+url);;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -179,18 +180,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         if (view.getId() == R.id.login){
             Log.d("LoginActivity", "onClick: ");
-            //sandRequire(this,Server_IP + Server_Login,account.getText().toString(),password.getText().toString());
-            sp = getSharedPreferences("Information",MODE_PRIVATE);
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putBoolean("isLogin",true);
-            editor.putString("name", "hhh");
-            editor.putString("phone", "18477591278");
-            editor.putString("email", "785103566@qq.com");
-            editor.putString("photo_url","https://tse3-mm.cn.bing.net/th/id/OIP-C.ABm4Ol2IVM6H2d5k0YIXQwHaHg?rs=1&pid=ImgDetMain");
-            editor.apply();
-            ARouter.getInstance()
-                    .build("/app/MainActivity")
-                    .navigation();
+            sandRequire(this,Server_IP + Server_Login,account.getText().toString(),password.getText().toString());
+//            sp = getSharedPreferences("Information",MODE_PRIVATE);
+//            SharedPreferences.Editor editor = sp.edit();
+//            editor.putBoolean("isLogin",true);
+//            editor.putString("name", "hhh");
+//            editor.putString("phone", "18477591278");
+//            editor.putString("email", "785103566@qq.com");
+//            editor.putString("photo_url","https://tse3-mm.cn.bing.net/th/id/OIP-C.ABm4Ol2IVM6H2d5k0YIXQwHaHg?rs=1&pid=ImgDetMain");
+//            editor.apply();
+//            ARouter.getInstance()
+//                    .build("/app/MainActivity")
+//                    .navigation();
         }
         if (view.getId() == R.id.eye){
             if (isHide){

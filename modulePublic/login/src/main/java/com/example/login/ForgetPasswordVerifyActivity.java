@@ -15,7 +15,8 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.module.login.R;
-import com.example.tool.OkHttpUtil;
+import com.example.login.Util.OkHttpUtil;
+import com.example.tool.Util.SERVER_IP;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,8 +30,8 @@ import okhttp3.Response;
 @Route(path = "/login/FindPasswordVerityActivity")
 public class ForgetPasswordVerifyActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String Server_IP = "http://192.168.0.101:8080";
-    private String Server_FindPassword = "/user/updatePasswordByPhone";
+    private String Server_IP = SERVER_IP.Server_IP;
+    private String Server_FindPassword = SERVER_IP.Server_FindPassword;
     private EditText email;
     private EditText code;
     private Button confirm;

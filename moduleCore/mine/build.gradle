@@ -53,6 +53,7 @@ dependencies {
 
     implementation project(":moduleBase:libBase")
     implementation project(path: ':modulePublic:tool')
+    implementation project(path: ':modulePublic:login')
     annotationProcessor libARouterCompiler
 
     implementation 'androidx.appcompat:appcompat:1.4.1'

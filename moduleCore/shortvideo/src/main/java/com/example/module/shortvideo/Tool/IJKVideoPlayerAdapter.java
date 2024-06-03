@@ -10,32 +10,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dueeeke.videoplayer.player.IjkVideoView;
 import com.dueeeke.videoplayer.player.PlayerConfig;
 import com.example.module.shortvideo.CommentFragment;
-import com.example.module.shortvideo.Entity.Comment;
 import com.example.module.shortvideo.Entity.Video;
 import com.example.module.shortvideo.OkHttpUtils.OkHttpsUtils;
 import com.example.module.shortvideo.R;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.example.tool.Util.SERVER_IP;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -44,12 +39,12 @@ import okhttp3.Response;
 
 public class IJKVideoPlayerAdapter extends RecyclerView.Adapter<IJKVideoPlayerAdapter.ViewHolder> {
 
-    private String Server_IP = "http://192.168.0.101:8080";
-    private String Server_Apply_Video = "/vedio/login/list";
-    private String Server_Like_Video = "/vedio/like";
-    private String Server_Dislike_Video = "/vedio/cancel/like";
-    private String Server_Collect_Video = "/vedio/collect";
-    private String Server_CancelCollect_Video = "/vedio/cancel/collect";
+    private String Server_IP = SERVER_IP.Server_IP;
+    private String Server_Apply_Video = SERVER_IP.Server_Apply_Video;
+    private String Server_Like_Video = SERVER_IP.Server_Like_Video;
+    private String Server_Dislike_Video = SERVER_IP.Server_Dislike_Video;
+    private String Server_Collect_Video = SERVER_IP.Server_Collect_Video;
+    private String Server_CancelCollect_Video = SERVER_IP.Server_CancelCollect_Video;
     private Context context;
     private List<Video> videoList;
     private final PlayerConfig playerConfig;

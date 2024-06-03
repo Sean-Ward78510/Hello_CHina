@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.module.shortvideo.Entity.Comment;
 import com.example.module.shortvideo.OkHttpUtils.OkHttpsUtils;
 import com.example.module.shortvideo.Tool.CommentAdapter;
+import com.example.tool.Util.SERVER_IP;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.json.JSONArray;
@@ -45,9 +46,9 @@ import okhttp3.Response;
  */
 
 public class CommentFragment extends BottomSheetDialogFragment implements View.OnClickListener{
-    private String Server_IP = "http://192.168.0.101:8080";
-    private String Server_Send_Comment = "/comment/add";
-    private String Server_Apply_Comment = "/comment/get/list";
+    private String Server_IP = SERVER_IP.Server_IP;
+    private String Server_Send_Comment = SERVER_IP.Server_Send_Comment;
+    private String Server_Apply_Comment = SERVER_IP.Server_Apply_Comment;
     View view;
     String video_id;
     String email;

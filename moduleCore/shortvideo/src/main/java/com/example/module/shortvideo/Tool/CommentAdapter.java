@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.module.shortvideo.Entity.Comment;
 import com.example.module.shortvideo.R;
-import com.example.tool.GlideUtil;
+import com.example.tool.Util.GlideUtil;
 
 import java.util.List;
 

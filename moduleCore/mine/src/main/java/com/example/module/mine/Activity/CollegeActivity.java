@@ -1,8 +1,5 @@
 package com.example.module.mine.Activity;
 
-import static android.app.Activity.RESULT_OK;
-import static java.security.AccessController.getContext;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -16,28 +13,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.module.mine.Article;
-import com.example.module.mine.Utils.OKhttpUtils;
-import com.example.tool.OkHttpUtil;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.IOException;
+
 import java.util.ArrayList;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 import com.example.module.mine.FirstFragment;
 import com.example.module.mine.R;
 import com.example.module.mine.SecondFragment;
+import com.example.tool.Util.SERVER_IP;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -46,8 +34,9 @@ public class CollegeActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
-    private String Server_IP = "http://192.168.0.101:8080/";
-    private String Server_Collect = "article/collect";
+    private String Server_IP = SERVER_IP.Server_IP;
+    private String Server_getCustom_ArticleCollect = SERVER_IP.Server_getCustom_CollegeArticleList;
+    private String Server_getCustom_ArticleLike = SERVER_IP.Server_getCustom_LikeArticleList;
     private Handler handler;
     private TextView titleTextView; // 用于显示标题的TextView
     private TextView contentTextView; // 用于显示内容的TextView

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.showwebview.ShowWebViewActivity">
+    tools:context="com.example.showwebview.GeckoWebViewActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -25,7 +24,6 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:src="@drawable/gray" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,45 +33,15 @@
             android:textColor="@color/black" />
     </LinearLayout>
 
-    <WebView
-        android:id="@+id/webView"
+    <org.mozilla.geckoview.GeckoView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:id="@+id/geckoView"
         android:visibility="gone"
-
-        app:layout_constraintBottom_toTopOf="@+id/optionBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/optionBar"
-        android:background="#fff"
-        app:layout_constraintBottom_toBottomOf="@id/webView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone">
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/like"
-            android:src="@drawable/article_dislike"/>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/college"
-            android:src="@drawable/article_discollect"/>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/transmit"
-            android:src="@drawable/article_transmit"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

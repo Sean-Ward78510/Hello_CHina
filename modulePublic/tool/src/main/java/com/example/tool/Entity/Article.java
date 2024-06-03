@@ -1,4 +1,4 @@
-package com.example.tool.Collect;
+package com.example.tool.Entity;
 
 public class Article {
     private String title;

@@ -39,8 +39,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+ext {
+    geckoviewChannel = "nightly"
+    geckoviewVersion = "120.0.20231006092133"
+}
 
 dependencies {
+
+    implementation "org.mozilla.geckoview:geckoview-${geckoviewChannel}:${geckoviewVersion}"
 
     implementation project(":moduleBase:libBase")
     implementation project(":modulePublic:tool")

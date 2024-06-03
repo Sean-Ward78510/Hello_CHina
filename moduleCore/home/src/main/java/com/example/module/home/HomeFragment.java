@@ -4,15 +4,11 @@ package com.example.module.home;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,27 +19,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.example.module.home.OKHttp.OkHttpsUtils;
+import com.example.tool.Entity.Fruit;
+import com.example.tool.Util.SERVER_IP;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
-
 @Route(path = "/moduleCore/home/HomeFragment")
 public class HomeFragment extends Fragment implements View.OnClickListener{
-    private String Server_IP = "http://192.168.0.101:8080/";
-    private String Server_Collect = "article/get/list";
+    private String Server_IP = SERVER_IP.Server_IP;
     private  RecyclerView recyclerView;
     private GridLayoutManager layoutManager;
     private TextView first;
@@ -94,7 +82,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
-        FruitAdapter adapter = new FruitAdapter(fruitList);
+        FruitAdapter adapter = new FruitAdapter(fruitList,getContext(),true);
         recyclerView.setAdapter(adapter);
         initWidget(view);
         galleryRecycle = (MZBannerView) view.findViewById(R.id.Gallery);
@@ -125,16 +113,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     }
 
     private void initFruits() {
-        Fruit one = new Fruit(("你好,江西"), R.drawable.one);
-        fruitList.add(one);
-        Fruit two = new Fruit(("你好,内蒙古"), R.drawable.two);
-        fruitList.add(two);
-        Fruit three = new Fruit(("你好,黑龙江"), R.drawable.three);
-        fruitList.add(three);
-        Fruit four = new Fruit(("你好,北京"), R.drawable.four);
-        fruitList.add(one);
-        Fruit five = new Fruit(("你好,西安"), R.drawable.five);
-        fruitList.add(five);
+        Fruit GX = new Fruit(("你好,广西"), R.drawable.gx,"https://share.ccmapp.cn/shareiframe?thirdParams=eyJ0aXRsZSI6IuS9oOWlveW5v-ilvyIsImRlc2MiOiLoh6rkuqTotr7oh7PkvJrnqL3kuIPlhavljYPph4zvvIzlub_opb_lpITnmb7otormnYLlpITvvIw4MOS4h-W5tOWJjeeahOeBq-enjeW7tue7reiHs-S7iuOAguWxseawtOacieebuOmAou-8jOe7iOS8muWIsOa8k-axn-OAgua8k-axn-ahguael-iwt-WcsO-8jOWNg-WzsOernuengO-8jOeZvua5lueip--8jOS4gOaxn-a4heOAguWkqeexgeawkeatjO-8jOawtOS4iue7v-Wfju-8jOW_g-mGieW5v-ilv--8jOS4jeiZmuatpOihjOOAgiIsImlmcmFtZVVybCI6Imh0dHBzOi8vcmVzLmNjbWFwcC5jbi9tL3NwZWNpYWxTdWJqZWN0P2lkPTEwOTI4MzcyOTI4MzAxMDAmdG9rZW49NjVlOWI0MzQ3MmQ3MTUxZmIxN2QwMDQ3IiwiaW1nVXJsIjoiaHR0cHM6Ly9jdGRyLmNjbWFwcC5jbi9nYXRld2F5L2ZpbGUvc3RhdGljcy8yMDIzLzA3LzE5LzgwOTc2N2NlLTU1MjQtNGRiOS05MTZkLTRiOTFkMzliNTYzOS5qcGcifQ");
+        Fruit JX = new Fruit(("你好,江西"), R.drawable.jx,"https://share.ccmapp.cn/shareiframe?thirdParams=eyJ0aXRsZSI6IuS9oOWlveaxn-ilvyIsImRlc2MiOiLov5nph4zmmK_msZ_opb_vvIzkuInpnaLnjq_lsbHkuIDpnaLkuLTmsZ_vvIzlsbHohInlm7TpmLvvvIzmsLTmtYHlpZTmtozvvIzkuIDlvKDkuIDlkIjpl7TvvIzlrZXogrLlh7rkuoblpJrlsJHor5fmg4XnlLvmhI_kuIDmraXkuIDmma_jgILouqvmnKrliqjvvIzlv4Plt7Lov5zvvIzmsZ_opb_po47mma_ni6zlpb3vvIzlv6vmnaXkuI7mlofml4XkuK3lm73otbDov5vmsZ_opb_vvIzmhJ_lj5fni6zlsZ7kuo7ov5nph4znmoTlnLDpgZPpo47niankuI7muZblhYnlsbHoibLjgIIiLCJpZnJhbWVVcmwiOiJodHRwczovL3Jlcy5jY21hcHAuY24vbS9zcGVjaWFsU3ViamVjdD9pZD0lMjAxMDg4NDAwODE0NDkwMTAwJnRva2VuPTY1ZTliNDM0NzJkNzE1MWZiMTdkMDA0NyIsImltZ1VybCI6Imh0dHBzOi8vY3Rkci5jY21hcHAuY24vZ2F0ZXdheS9maWxlL3N0YXRpY3MvMjAyMy8wNy8xNy8wMDc4YmY1ZS02ZjBhLTQ3M2UtYWZhYi04NDE0YjYyM2E3MTIucG5nIn0");
+        Fruit NMG = new Fruit(("你好,内蒙古"), R.drawable.nmg,"https://share.ccmapp.cn/shareiframe?thirdParams=eyJ0aXRsZSI6IuS9oOWlveWGheiSmeWPpCIsImRlc2MiOiLmgqDmiaznmoTpqazlpLTnkLTlo7DmkpXoo4LlpJznqbrvvIzpqa_pub_ouI_nnYDmnpfpl7ToloTpm77kv6HmraXlvpzlvonvvIzliJrmjKTnmoTniZvlpbbmlaPlj5HnnYDpnZLojYnpppnvvIzoi6Xlhqzml6XnmoTpm77lh4flpYfmma_ov5jkuI3lpJ_lhrflhr3vvIzpgqPlhYXmu6HlvILln5_po47mg4XnmoTmu6HmtLLph4zkvr_mlLbol4_nnYDmlbTkuKrnp4vlpKnjgILngavng6fnmoTmtYHkupHvvIzov57lpKnnmoTnoqfojYnvvIzng63mg4XnmoTniafmsJHpqpHnnYDpqazlhL_vvIzlnKjlhoXokpnlj6TvvIzmnInnnYDmnIDnuq_lh4DnmoToh6rnlLHjgIIiLCJpZnJhbWVVcmwiOiJodHRwczovL3Jlcy5jY21hcHAuY24vbS9zcGVjaWFsU3ViamVjdD9pZD0lMjAxMTQ5ODkxNzE5MTEwMTAwJnRva2VuPTY1ZTliNDM0NzJkNzE1MWZiMTdkMDA0NyIsImltZ1VybCI6Imh0dHBzOi8vY3Rkci5jY21hcHAuY24vZ2F0ZXdheS9maWxlL3N0YXRpY3MvMjAyMy8wOS8yMy85MjJiZTUzZi04MjExLTQ5MmQtYThmOC0yNmUxMDFkZDFhNjQuanBnIn0");
+        Fruit HLJ = new Fruit(("你好,黑龙江"), R.drawable.hlj,"https://share.ccmapp.cn/shareiframe?thirdParams=eyJ0aXRsZSI6IuS9oOWlvem7kem-meaxnyIsImRlc2MiOiLlpoLmnpzlhqzlpKnmnInmlYXkuaHvvIzpgqPkuIDlrprmmK_pu5HpvpnmsZ_jgILomb3nhLbmmK_lvojov5zlvojov5znmoTlnLDmlrnvvIzljbTmmK_lvojnvo7lvojnvo7nmoTmlYXkuaHjgILpm77lh4flhrDmsrPvvIzmnpfmtbfpm6rljp_vvIzmmK_lpKfoh6rnhLbotZDkuojnmoTnpLznianvvIzlnKjov5nph4zvvIzkvaDkvJrlj5HnjrDokL3pm6rmnInlo7DvvIzlo7Dlo7DmnInmg4XigKbigKYiLCJpZnJhbWVVcmwiOiJodHRwczovL3Jlcy5jY21hcHAuY24vbS9zcGVjaWFsU3ViamVjdD9pZD0lMjAxMTE1MzAwMzMyODQwMTAwJnRva2VuPTY1ZTliNDM0NzJkNzE1MWZiMTdkMDA0NyIsImltZ1VybCI6Imh0dHBzOi8vY3Rkci5jY21hcHAuY24vZ2F0ZXdheS9maWxlL3N0YXRpY3MvMjAyMy8wOS8xMS80MDllODc0YS1mNTIzLTRiYTctYTE5My02ZDZkMDdkZThkNmYucG5nIn0");
+        Fruit BJ = new Fruit(("你好,北京"), R.drawable.bj,"https://share.ccmapp.cn/shareiframe?thirdParams=eyJ0aXRsZSI6IuS9oOWlveWMl-S6rCIsImRlc2MiOiLljJfkuqzvvIzpppbpg73vvIw4MDDkvZnlubTlu7rpg73lj7LvvIzmlYXlrqvln47lopnkuIvln4vol4_nmoTljoblj7LngbDng6zkvZnmuKnnirnlnKjvvIzmiqTln47msrPnoqfmsLTnu5Xln47lrojljavljYPlubTlubPlronvvIzlpKnlronpl6jorrDlvZXnmoTliJnmmK_kuK3lm73mnKzouqvjgILkuIDmnaHog6HlkIzvvIzljYrkuKrkuK3lm73vvIzplb_lronooZfkuIrnmoTmlYXkuovvvIzkuIDlubTmjqXkuIDlubTjgIIiLCJpZnJhbWVVcmwiOiJodHRwczovL3Jlcy5jY21hcHAuY24vbS9zcGVjaWFsU3ViamVjdD9pZD0lMjAxMDk2Mzc3MTE1ODIwMTAwJnRva2VuPTY1ZTliNDM0NzJkNzE1MWZiMTdkMDA0NyIsImltZ1VybCI6Imh0dHBzOi8vY3Rkci5jY21hcHAuY24vZ2F0ZXdheS9maWxlL3N0YXRpY3MvMjAyMy8wNy8yNS81NGI2NTE1MS1mNWRhLTQ3MWQtYWViNS0xNmQ1OTE1MTZjMGUucG5nIn0");
+        Fruit HN = new Fruit(("你好,河南"), R.drawable.hn,"https://share.ccmapp.cn/shareiframe?thirdParams=eyJ0aXRsZSI6IuS9oOWlveays-WNlyIsImRlc2MiOiLkuKTljYPlubTljoblj7LnnIvopb_lronvvIzkupTljYPlubTljoblj7LnnIvmsrPljZfvvIHlnKjmsrPljZfop6bmkbjkuK3ljY7mlofmmI7nmoTohInliqjvvIzlk4HkuIDnopfmtYHkvKDljYPlubTnmoTog6HovqPmsaTvvIzlnKjmsrPljZfvvIzpgYfop4HmnIDml6nnmoTkuK3lm73igKbigKYiLCJpZnJhbWVVcmwiOiJodHRwczovL3Jlcy5jY21hcHAuY24vbS9zcGVjaWFsU3ViamVjdD9pZD0lMjAxMTI0NjM1MDAzMzMwMTAwJnRva2VuPTY1ZTliNDM0NzJkNzE1MWZiMTdkMDA0NyIsImltZ1VybCI6Imh0dHBzOi8vY3Rkci5jY21hcHAuY24vZ2F0ZXdheS9maWxlL3N0YXRpY3MvMjAyMy8wOC8yNS8xYjZhMzRlMi0zNzNhLTQxZWQtODA3ZS1mNWJiZjQ4NDc3NjIucG5nIn0");
+        Fruit JS = new Fruit(("你好,江苏"), R.drawable.js,"https://share.ccmapp.cn/shareiframe?thirdParams=eyJ0aXRsZSI6IuS9oOWlveaxn-iLjyIsImRlc2MiOiLmsZ_oi4_vvIzlj5bmsZ_lroHlupzjgIHoi4_lt57lupzkuKTlupzkuYvpppblrZfogIzlvpflkI3vvIzmi6XmnInmsZ_ljZfpo47lhYnnmoTnvKDnu7XnvLHnu7vvvIzkuZ_mnInmpZrmsYnmlofljJbnmoToh6rlvLrkuI3mga_jgILlkLTotorkuYvlnLDvvIzoh6rlj6TlpJrmg4XjgILkuo7mmK_mmKXpo47pmr7op6PmhI_vvIzlsbHmsLTlhaXloqjmn5PvvIzkuIDmnJ3lhaXlp5Hoi4_vvIzmu6HnnLzmmK_msZ_ljZfjgIIiLCJpZnJhbWVVcmwiOiJodHRwczovL3Jlcy5jY21hcHAuY24vbS9zcGVjaWFsU3ViamVjdD9pZD0lMjAxMTI4MTMwODczODQwMTAwJnRva2VuPTY1ZTliNDM0NzJkNzE1MWZiMTdkMDA0NyIsImltZ1VybCI6Imh0dHBzOi8vY3Rkci5jY21hcHAuY24vZ2F0ZXdheS9maWxlL3N0YXRpY3MvMjAyMy8wOC8yOS9mOGNlYTNkZi1jMjM5LTQyYzAtOTg3Ny0zMWNlNzQyZDNhNDUuanBnIn0");
+        Fruit GZ = new Fruit(("你好,贵州"), R.drawable.gz,"https://share.ccmapp.cn/shareiframe?thirdParams=eyJ0aXRsZSI6IuS9oOWlvei0teW3niIsImRlc2MiOiLlpKfoh6rnhLbprLzmlqfnpZ7lt6XvvIzlnKjotLXlt57nlZnkuIvkuobkuIDniYfku5nlooPjgILmsqfmtbfnlKgxNOS6v-W5tOW5u-WMluaIkOahkeeUsO-8jOWkqeeUn-ahpeeJtei_nui1t-S4pOW6p-WxseS9k--8jOefs-WktOiDveiusui_sOWcsOeQg-W-gOS6i-KApuKApuaOpeS4i-adpe-8jOivt-WSjOaIkeS7rOS4gOi1t-aOoue0ouS4h-eJqeelnuWlh-eahOi0teW3nuS5i-e-juWQp--8gSIsImlmcmFtZVVybCI6Imh0dHBzOi8vcmVzLmNjbWFwcC5jbi9tL3NwZWNpYWxTdWJqZWN0P2lkPSUyMDEwOTY5NjY4OTAwMTAxMDAmdG9rZW49NjVlOWI0MzQ3MmQ3MTUxZmIxN2QwMDQ3IiwiaW1nVXJsIjoiaHR0cHM6Ly9jdGRyLmNjbWFwcC5jbi9nYXRld2F5L2ZpbGUvc3RhdGljcy8yMDIzLzA3LzI0LzlmZjFlZDZmLTNjNDUtNDY2Yi1iNDNjLTViODQyNGUyZDIzMC5qcGcifQ");
+
+        fruitList.add(GX);
+        fruitList.add(JX);
+        fruitList.add(NMG);
+        fruitList.add(HLJ);
+        fruitList.add(BJ);
+        fruitList.add(HN);
+        fruitList.add(JS);
+        fruitList.add(GZ);
     }
     private void initWidget(View view){
         first = view.findViewById(R.id.first_name);
@@ -151,183 +146,50 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         new_three.setOnClickListener(this);
         new_four = view.findViewById(R.id.new_four);
         new_four.setOnClickListener(this);
-        collect_one = view.findViewById(R.id.home_collect_one);
-        collect_one.setOnClickListener(this);
-        collect_two = view.findViewById(R.id.home_collect_two);
-        collect_two.setOnClickListener(this);
-        collect_three = view.findViewById(R.id.home_collect_three);
-        collect_three.setOnClickListener(this);
-        collect_four = view.findViewById(R.id.home_collect_four);
-        collect_four.setOnClickListener(this);
-        collect_six = view.findViewById(R.id.home_collect_six);
-        collect_six.setOnClickListener(this);
-        collect_seven = view.findViewById(R.id.home_collect_seven);
-        collect_seven.setOnClickListener(this);
-        collect_eight = view.findViewById(R.id.home_collect_eight);
-        collect_eight.setOnClickListener(this);
-        zhuanfa_one = view.findViewById(R.id.img_zhuanfa_one);
-        zhuanfa_one.setOnClickListener(this);
-        zhuanfa_two = view.findViewById(R.id.img_zhuanfa_two);
-        zhuanfa_two.setOnClickListener(this);
-        zhuanfa_three = view.findViewById(R.id.img_zhuanfa_three);
-        zhuanfa_three.setOnClickListener(this);
-        zhuanfa_four = view.findViewById(R.id.img_zhuanfa_four);
-        zhuanfa_four.setOnClickListener(this);
-        zhuanfa_six = view.findViewById(R.id.img_zhuanfa_six);
-        zhuanfa_six.setOnClickListener(this);
-        zhuanfa_seven = view.findViewById(R.id.img_zhuanfa_seven);
-        zhuanfa_seven.setOnClickListener(this);
-        zhuanfa_eight= view.findViewById(R.id.img_zhuanfa_eight);
-        zhuanfa_eight.setOnClickListener(this);
-        like_one = view.findViewById(R.id.img_like_one);
-        like_one.setOnClickListener(this);
-        like_two = view.findViewById(R.id.img_like_two);
-        like_two.setOnClickListener(this);
-        like_three = view.findViewById(R.id.img_like_three);
-        like_three.setOnClickListener(this);
-        like_four= view.findViewById(R.id.img_like_four);
-        like_four.setOnClickListener(this);
-        like_six= view.findViewById(R.id.img_like_six);
-        like_six.setOnClickListener(this);
-        like_seven = view.findViewById(R.id.img_like_seven);
-        like_seven.setOnClickListener(this);
-        like_eight = view.findViewById(R.id.img_like_eight);
-        like_eight.setOnClickListener(this);
 
     }
     public void onClick(View view){
         if(view.getId() == R.id.first_name){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
                     .withString("url"," http://www.china.com.cn/lianghui/news/2024-03/11/content_117053163.shtml")
+                    .withBoolean("isArticle",true)
                     .navigation();
         }
         if(view.getId() == R.id.second_name){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
                     .withString("url"," http://www.china.com.cn/lianghui/news/2024-03/11/content_117054183.shtml")
+                    .withBoolean("isArticle",true)
                     .navigation();
         }
         if(view.getId() == R.id.third_name){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
                     .withString("url"," http://photo.china.com.cn/2024-03/11/content_117053662.shtml")
+                    .withBoolean("isArticle",true)
                     .navigation();
         }
         if(view.getId() == R.id.new_one){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
                     .withString("url","https://www.chinanews.com.cn/life/2024/03-13/10179323.shtml")
+                    .withBoolean("isArticle",true)
                     .navigation();
         }
         if(view.getId() == R.id.new_two){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
                     .withString("url","https://www.chinanews.com.cn/life/2024/03-13/10179345.shtml")
+                    .withBoolean("isArticle",true)
                     .navigation();
         }
         if(view.getId() == R.id.new_three){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
                     .withString("url","https://www.chinanews.com.cn/sh/2024/03-13/10179610.shtml")
+                    .withBoolean("isArticle",true)
                     .navigation();
         }
         if(view.getId() == R.id.new_four){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
                     .withString("url","https://www.chinanews.com.cn/life/2024/03-13/10179204.shtml")
+                    .withBoolean("isArticle",true)
                     .navigation();
-        }
-        if(view.getId() == R.id.home_collect_one){
-            Log.d("Server_Collect", "onClick: ");
-            String article_url = "http://www.china.com.cn/lianghui/news/2024-03/11/content_117053163.shtml";
-            setServer_Collect(article_url);
-        }
-        if(view.getId() == R.id.home_collect_two){
-            Log.d("Server_Collect", "onClick: ");
-            String article_url = "http://www.china.com.cn/lianghui/news/2024-03/11/content_117053163.shtml";
-            setServer_Collect(article_url);
-        }
-        if(view.getId() == R.id.home_collect_one){
-            Log.d("Server_Collect", "onClick: ");
-            String article_url = "http://www.china.com.cn/lianghui/news/2024-03/11/content_117053163.shtml";
-            setServer_Collect(article_url);
-        }
-        if(view.getId() == R.id.home_collect_two){
-            Log.d("Server_Collect", "onClick: ");
-            String article_url = "http://www.china.com.cn/lianghui/news/2024-03/11/content_117053163.shtml";
-            setServer_Collect(article_url);
-        }
-        if(view.getId() == R.id.home_collect_one){
-            Log.d("Server_Collect", "onClick: ");
-            String article_url = "http://www.china.com.cn/lianghui/news/2024-03/11/content_117053163.shtml";
-            setServer_Collect(article_url);
-        }
-        if(view.getId() == R.id.home_collect_two){
-            Log.d("Server_Collect", "onClick: ");
-            String article_url = "http://www.china.com.cn/lianghui/news/2024-03/11/content_117053163.shtml";
-            setServer_Collect(article_url);
-        }
-        if(view.getId() == R.id.home_collect_three){
-            Log.d("Server_Collect", "onClick: ");
-            String article_url = " http://photo.china.com.cn/2024-03/11/content_117053662.shtml";
-            setServer_Collect(article_url);
-        }
-        if(view.getId() == R.id.home_collect_four){
-            Log.d("Server_Collect", "onClick: ");
-            String article_url = "https://www.chinanews.com.cn/life/2024/03-13/10179323.shtml";
-            setServer_Collect(article_url);
-        }
-        if(view.getId() == R.id.home_collect_six){
-            Log.d("Server_Collect", "onClick: ");
-            String article_url = "https://www.chinanews.com.cn/life/2024/03-13/10179345.shtml";
-            setServer_Collect(article_url);
-        }
-        if(view.getId() == R.id.home_collect_seven){
-            Log.d("Server_Collect", "onClick: ");
-            String article_url = " https://www.chinanews.com.cn/sh/2024/03-13/10179610.shtml";
-            setServer_Collect(article_url);
-        }
-        if(view.getId() == R.id.home_collect_eight){
-            Log.d("Server_Collect", "onClick: ");
-            String article_url = "https://www.chinanews.com.cn/life/2024/03-13/10179204.shtml";
-            setServer_Collect(article_url);
-        }
-
-        if(view.getId() == R.id.img_zhuanfa_one){
-            Toast.makeText(getContext(), "转发成功", Toast.LENGTH_SHORT).show();
-        }
-        if(view.getId() == R.id.img_zhuanfa_two){
-            Toast.makeText(getContext(), "转发成功", Toast.LENGTH_SHORT).show();
-        }
-        if(view.getId() == R.id.img_zhuanfa_three){
-            Toast.makeText(getContext(), "转发成功", Toast.LENGTH_SHORT).show();
-        }
-        if(view.getId() == R.id.img_zhuanfa_four){
-            Toast.makeText(getContext(), "转发成功", Toast.LENGTH_SHORT).show();
-        }
-        if(view.getId() == R.id.img_zhuanfa_six){
-            Toast.makeText(getContext(), "转发成功", Toast.LENGTH_SHORT).show();
-        }
-        if(view.getId() == R.id.img_zhuanfa_seven){
-            Toast.makeText(getContext(), "转发成功", Toast.LENGTH_SHORT).show();
-        }
-        if(view.getId() == R.id.img_zhuanfa_eight){
-            Toast.makeText(getContext(), "转发成功", Toast.LENGTH_SHORT).show();
-        }
-        if(view.getId() == R.id.img_like_one){
-            Toast.makeText(getContext(), "点赞成功", Toast.LENGTH_SHORT).show();
-        }
-        if(view.getId() == R.id.img_like_two){
-            Toast.makeText(getContext(), "点赞成功", Toast.LENGTH_SHORT).show();
-        }
-        if(view.getId() == R.id.img_like_three){
-            Toast.makeText(getContext(), "点赞成功", Toast.LENGTH_SHORT).show();
-        }
-        if(view.getId() == R.id.img_like_four){
-            Toast.makeText(getContext(), "点赞成功", Toast.LENGTH_SHORT).show();
-        }
-        if(view.getId() == R.id.img_like_six){
-            Toast.makeText(getContext(), "点赞成功", Toast.LENGTH_SHORT).show();
-        }
-        if(view.getId() == R.id.img_like_seven){
-            Toast.makeText(getContext(), "点赞成功", Toast.LENGTH_SHORT).show();
-        }
-        if(view.getId() == R.id.img_like_eight){
-            Toast.makeText(getContext(), "点赞成功", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -342,59 +204,4 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         super.onResume();
         galleryRecycle.start();
     }
-    public void setServer_Collect(String article_url){
-        Log.d("Server_Collect", "setServer_Collect: "+ email);
-        Log.d("Server_Collect", "setServer_Collect: "+ Server_IP + Server_Collect);
-        OkHttpsUtils.sendArticle(Server_IP + Server_Collect,email,article_url, new Callback() {
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-
-                try {
-                    String responseBody = response.body().string();
-                    JSONObject responseData = new JSONObject(responseBody);
-                    int statusCode = responseData.getInt("code");
-                    String message = responseData.getString("msg");
-                    Log.d("CollectRespond", "onResponse: " + responseData);
-                    Log.d("CollectRespond", "onResponse: " + statusCode);
-                    // 检查响应状态码
-                    if (statusCode == 200) {
-                        // 文章收藏成功，请根据需要更新用户界面
-                        showSuccessMessage(message);
-
-                    } else {
-                        // 文章收藏失败，显示错误信息
-                        showErrorMessage(message);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
-            }
-        });
-    }
-    private void showErrorMessage(String message) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getContext(), "发送失败", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    private void showSuccessMessage(String message) {
-        // 显示成功消息，例如使用Toast
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getContext(), "发送成功", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
 }

@@ -1,11 +1,21 @@
 package com.example.showwebview;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.net.http.SslError;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -19,9 +29,12 @@ public class ShowWebViewActivity extends AppCompatActivity {
     ImageView imageView;
     TextView textView;
     LoadingAnimation loadingAnimation;
+    LinearLayout optionBar;
 
     @Autowired(name = "url")
     String url;
+    @Autowired(name = "isArticle")
+    boolean isArticle;
 
     WebView webView;
 
@@ -31,8 +44,13 @@ public class ShowWebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_web_view);
         ARouter.getInstance().inject(this);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
+
         imageView = (ImageView) findViewById(R.id.loading);
         textView = (TextView) findViewById(R.id.text);
+        optionBar = (LinearLayout) findViewById(R.id.optionBar);
         loadingAnimation = new LoadingAnimation(imageView);
 
         webView = (WebView) findViewById(R.id.webView);
@@ -43,9 +61,10 @@ public class ShowWebViewActivity extends AppCompatActivity {
 
         webView.getSettings().setDatabaseEnabled(true);//启用数据库存储API，支持网页使用Web SQL数据库存储数据。
 
-        //webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);//允许混合内容，即允许HTTPS页面加载HTTP资源。
+        webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);//允许混合内容，即允许HTTPS页面加载HTTP资源。
 
         //webView.getSettings().setUseWideViewPort(true);//设置WebView是否支持使用宽视窗，使页面按实际尺寸显示。
+
 
         //webView.getSettings().setLoadWithOverviewMode(true);//设置WebView是否以overview模式加载页面，即缩小内容以适应屏幕宽度。
         // 是否支持缩放，默认为true
@@ -70,7 +89,21 @@ public class ShowWebViewActivity extends AppCompatActivity {
             imageView.setVisibility(View.GONE);
             textView.setVisibility(View.GONE);
             webView.setVisibility(View.VISIBLE);
+            if (isArticle){
+                optionBar.setVisibility(View.VISIBLE);
+                Log.d("WEBVIEW", "onPageFinished: "+isArticle);
+            }
         }
+//        @Override
+//        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+//            handler.proceed();
+//            super.onReceivedSslError(view, handler, error);
+//        }
+//        @Override
+//        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+//            view.loadUrl(request.getUrl().toString());
+//            return true;
+//        }
     }
 
     @Override

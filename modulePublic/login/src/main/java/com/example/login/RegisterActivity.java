@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,7 +22,8 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.module.login.R;
 import com.example.tool.Entity.User;
-import com.example.tool.OkHttpUtil;
+import com.example.login.Util.OkHttpUtil;
+import com.example.tool.Util.SERVER_IP;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,9 +36,9 @@ import okhttp3.Response;
 
 @Route(path = "/login/RegisterActivity")
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
-    private String Server_IP = "http://192.168.0.101:8080/";
-    private String Server_Register = "user/createUser";
-    private String Server_Send_Code = "user/code";
+    private String Server_IP = SERVER_IP.Server_IP;
+    private String Server_Register = SERVER_IP.Server_Register;
+    private String Server_Send_Code = SERVER_IP.Server_Send_Code;
     private User user;
     private boolean isHide_eye;
     private boolean isHide_confirm_eye;
@@ -194,6 +194,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void sandRegisterRequire(Context context,String url,User user){
+        Log.d("sandRegisterRequire", "GetCode: " + url);
         OkHttpUtil.sendPostRegisterRequest(url, user, code.getText().toString(), new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -224,6 +225,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         });
     }
     public void GetCode(){
+        Log.d("sandCodeRequire", "GetCode: " + Server_IP + Server_Send_Code);
         OkHttpUtil.sendPostCodeRequest(Server_IP + Server_Send_Code, email.getText().toString(), new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -232,6 +234,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 String respondDate = response.body().string();
+                Log.d("sandCodeRequire", "onResponse: " + respondDate);
                 try {
                     JSONObject jsonObject = new JSONObject(respondDate);
                     Log.d("LoginByCode", "onResponse: " + jsonObject.getInt("code"));
