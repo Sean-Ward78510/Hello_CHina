@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,6 +58,8 @@ public class CommentFragment extends BottomSheetDialogFragment implements View.O
     EditText editText;
     ImageView cancel;
     Button send;
+    TextView commentNum;
+    int commitNum;
     RecyclerView recyclerView;
     CommentAdapter adapter;
     LinearLayoutManager manager;
@@ -69,6 +72,8 @@ public class CommentFragment extends BottomSheetDialogFragment implements View.O
                 changeComments();
             }
             if (msg.what == 2){
+                commitNum++;
+                commentNum.setText(String.valueOf(commitNum) + "条评论");
                 adapter.notifyItemInserted(comments.size() - 1);
             }
         }
@@ -96,6 +101,7 @@ public class CommentFragment extends BottomSheetDialogFragment implements View.O
         send = view.findViewById(R.id.send);
         cancel = view.findViewById(R.id.cancel);
         recyclerView = view.findViewById(R.id.comment_area);
+        commentNum = view.findViewById(R.id.comment_num);
 
         manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
@@ -114,6 +120,7 @@ public class CommentFragment extends BottomSheetDialogFragment implements View.O
         adapter = new CommentAdapter(getContext(),comments);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        commentNum.setText(String.valueOf(commitNum) + "条评论");
     }
     public void ApplyComment(){
         Log.d("ApplyComment", "ApplyComment: " + Server_IP + Server_Apply_Comment);
@@ -134,7 +141,8 @@ public class CommentFragment extends BottomSheetDialogFragment implements View.O
                     if (jsonObject.getInt("code") == 200){
                         JSONArray array = jsonObject.getJSONArray("data");
                         comments.clear();
-                        for (int i = 0; i < array.length(); i++) {
+                        commitNum = array.length();
+                        for (int i = 0; i < commitNum; i++) {
                             JSONObject object = array.getJSONObject(i);
                             Comment comment = new Comment();
                             comment.name = object.getString("userName");

@@ -98,7 +98,6 @@ public class ShortVideoFragment extends Fragment{
     private Handler handler = new Handler(Looper.getMainLooper()){
         @Override
         public void handleMessage(@NonNull Message msg) {
-            //initVedio();
             switch (msg.what){
                 case 1:
                     changeVideo();
@@ -134,10 +133,10 @@ public class ShortVideoFragment extends Fragment{
         if (isLogin){
             Log.d("initVideo", "initVideo: 111");
             Log.d("initVideo", "initVideo: " + Server_IP + Server_Apply_LoginVideo);
-            //ApplyLoginVideo();
+            ApplyLoginVideo();
         }else {
             Log.d("initVideo", "initVideo: 222");
-            //ApplyUnLoginVideo();
+            ApplyUnLoginVideo();
         }
     }
 
@@ -153,10 +152,10 @@ public class ShortVideoFragment extends Fragment{
                     if (!recyclerView.canScrollVertically(1)){
                         if (isLogin){
                             Log.d("changeVideo", "onScrolled: isLogin");
-//                            ApplyLoginVideo();
+                            ApplyLoginVideo();
                         }else {
                             Log.d("changeVideo", "onScrolled: is not Login");
-//                            ApplyUnLoginVideo();
+                            ApplyUnLoginVideo();
                         }
                     }
                 }else {
@@ -284,6 +283,7 @@ public class ShortVideoFragment extends Fragment{
     }
 
     public void ApplyLoginVideo(){
+        Log.d("test", "ApplyLoginVideo: 111");
         OkHttpsUtils.sendApplyLoginVideoRequest(Server_IP + Server_Apply_LoginVideo,email, new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
