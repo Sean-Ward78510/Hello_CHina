@@ -85,9 +85,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         email = sp.getString("email",null);
 
         ARouter.getInstance().inject(this);
-        initFruits();
         getNew();
         getLifeNew();
+        getTravel();
 
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -174,6 +174,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 homeView.updateNew(responseDate);
             }
         });
+        initFruits();
     }
 
     public void getLifeNew(){
@@ -187,6 +188,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 String responseDate = response.body().string();
                 homeView.updateLifeNew(responseDate);
+            }
+        });
+    }
+    public void getTravel(){
+        OkHttpsUtils.getTravel(URL, new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String responseDate = response.body().string();
+                homeView.updateTravel(responseDate);
             }
         });
     }
@@ -255,6 +270,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         }
 
         public void updateLifeNew(String data){
+
+        }
+        public void updateTravel(String data){
 
         }
     }

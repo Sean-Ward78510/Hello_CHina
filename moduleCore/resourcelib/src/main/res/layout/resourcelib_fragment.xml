@@ -48,10 +48,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="非遗资源"
-                    android:textSize="24sp"
+                    android:layout_centerInParent="true"
+                    android:text="古籍资源"
                     android:textColor="@color/black"
-                    android:layout_centerInParent="true" />
+                    android:textSize="24sp" />
 
             </RelativeLayout>
             <LinearLayout

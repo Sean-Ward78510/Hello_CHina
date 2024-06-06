@@ -1,5 +1,6 @@
 package com.example.module.resourcelib;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +16,26 @@ import android.widget.RelativeLayout;
 import com.alibaba.android.arouter.launcher.ARouter;
 
 import com.example.module.resourcelibrary.R;
+import com.example.tool.Util.SERVER_IP;
 import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 public class ResourceLibFragment extends Fragment implements View.OnClickListener{
+    private String URL = SERVER_IP.Server_IP;
+    private UpdataUtils update;
     private Banner banner;
     private TextView picture;
     private TextView back_one;
@@ -62,11 +74,14 @@ public class ResourceLibFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.resourcelib_fragment,container,false);
-        ARouter.getInstance().inject(this);
-        initBannerList();
-        initWidget(view);
-        banner = (Banner) view.findViewById(R.id.banner);
 
+        ARouter.getInstance().inject(this);
+        initRes();//初始化所有资源
+        initBannerList();//初始化轮播图集合
+        initWidget(view);//初始化所有控件
+
+
+        banner = (Banner) view.findViewById(R.id.banner);
 
         banner.setAdapter(new BannerImageAdapter<Integer>(bannerList) {
             @Override
@@ -147,7 +162,6 @@ public class ResourceLibFragment extends Fragment implements View.OnClickListene
         old_book_eight.setOnClickListener(this);
         old_more = view.findViewById(R.id.old_more);
         old_more.setOnClickListener(this);
-
     }
 
     public void initBannerList(){
@@ -156,6 +170,149 @@ public class ResourceLibFragment extends Fragment implements View.OnClickListene
         bannerList.add(R.drawable.wan);
         bannerList.add(R.drawable.shoushi);
         bannerList.add(R.drawable.fushi);
+    }
+
+    public void initRes(){
+        Res_OkHttpUtils.getOldBookList(URL, new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String responseDate = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(responseDate);
+                    if (jsonObject.getInt("code") == 200){
+                        Log.d("TAG", "onResponse: 成功！");
+                        update.updateBooks(responseDate);
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        Res_OkHttpUtils.getCulturalHeritage(URL, new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String responseDate = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(responseDate);
+                    if (jsonObject.getInt("code") == 200){
+                        Log.d("TAG", "onResponse: 成功！");
+                        update.updateCulturalHeritage(responseDate);
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        Res_OkHttpUtils.getDraw(URL, new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String responseDate = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(responseDate);
+                    if (jsonObject.getInt("code") == 200){
+                        Log.d("TAG", "onResponse: 成功！");
+                        update.updateDraw(responseDate);
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        Res_OkHttpUtils.getCulture(URL, new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String responseDate = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(responseDate);
+                    if (jsonObject.getInt("code") == 200){
+                        Log.d("TAG", "onResponse: 成功！");
+                        update.updateCulture(responseDate);
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        Res_OkHttpUtils.getMyth(URL, new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String responseDate = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(responseDate);
+                    if (jsonObject.getInt("code") == 200){
+                        Log.d("TAG", "onResponse: 成功！");
+                        update.updateMyth(responseDate);
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        Res_OkHttpUtils.getIheritaget(URL, new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String responseDate = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(responseDate);
+                    if (jsonObject.getInt("code") == 200){
+                        Log.d("TAG", "onResponse: 成功！");
+                        update.updateIheritaget(responseDate);
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        Res_OkHttpUtils.getProtection(URL, new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String responseDate = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(responseDate);
+                    if (jsonObject.getInt("code") == 200){
+                        Log.d("TAG", "onResponse: 成功！");
+                        update.updateProtection(responseDate);
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
 
@@ -326,6 +483,28 @@ public class ResourceLibFragment extends Fragment implements View.OnClickListene
                     .withString("url","https://www.shidianguji.com/library?page_from=home_page")
                     .navigation();
         }
+    }
+    class UpdataUtils{
+        public void updateBooks(String data){
 
+        }
+        public void updateCulturalHeritage(String data){
+
+        }
+        public void updateDraw(String data){
+
+        }
+        public void updateCulture(String data){
+
+        }
+        public void updateMyth(String data){
+
+        }
+        public void updateProtection(String data){
+
+        }
+        public void updateIheritaget(String data){
+
+        }
     }
 }
