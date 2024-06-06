@@ -42,7 +42,6 @@
 
 
     <EditText
-        android:text="我是樊江维大帅哥"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/name"
@@ -56,7 +55,6 @@
         style="@style/EditTextHintStyle_Register"
         android:background="@drawable/edit_background"/>
     <EditText
-        android:text="18477591278"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/phone_number"
@@ -80,7 +78,6 @@
         app:layout_constraintTop_toBottomOf="@id/phone_number"
         app:layout_constraintBottom_toTopOf="@id/email"/>
     <EditText
-        android:text="785103566@qq.com"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/email"
@@ -138,7 +135,6 @@
         app:layout_constraintTop_toBottomOf="@id/security_code"
         app:layout_constraintBottom_toTopOf="@id/password"/>
     <EditText
-        android:text="Abc.123456"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/password"
@@ -172,7 +168,6 @@
         app:layout_constraintTop_toBottomOf="@id/password"
         app:layout_constraintBottom_toTopOf="@id/confirm_password"/>
     <EditText
-        android:text="Abc.123456"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/confirm_password"

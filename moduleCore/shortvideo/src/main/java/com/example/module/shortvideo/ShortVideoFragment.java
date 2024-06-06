@@ -109,15 +109,6 @@ public class ShortVideoFragment extends Fragment{
         }
     };
 
-//        urlList.add("https://v-cdn.zjol.com.cn/277001.mp4");
-//        urlList.add("https://v-cdn.zjol.com.cn/280443.mp4");
-//        urlList.add("https://v-cdn.zjol.com.cn/276982.mp4");
-//        urlList.add("https://v-cdn.zjol.com.cn/276984.mp4");
-//        urlList.add("https://v-cdn.zjol.com.cn/276985.mp4");
-//        urlList.add("https://v-cdn.zjol.com.cn/277004.mp4");
-//        urlList.add("https://v-cdn.zjol.com.cn/277003.mp4");
-//        urlList.add("https://v-cdn.zjol.com.cn/277002.mp4");
-//        urlList.add("https://v-cdn.zjol.com.cn/276996.mp4");
 
     public void changeVideo(){
         Log.d("changeVideo", "changeVideo: " + videoList.size());
@@ -267,12 +258,12 @@ public class ShortVideoFragment extends Fragment{
 
     public void initNotInternetVideo(){
         Log.d("NoNet", "initNotInternetVideo: ");
-        Video video1 = new Video("13","鸣沙山月牙泉","http://sb474wnni.hb-bkt.clouddn.com/53b54a5ec4d304d6de31eed34f5247dd.mp4","美丽的月牙泉",false,false);
-        Video video2 = new Video("14","传统婚礼","http://sb474wnni.hb-bkt.clouddn.com/5c68381b5f09074eaadcc6132906a38d.mp4","那个备婚两年刷爆全网的汉服婚礼正片来啦",false,false);
-        Video video3 = new Video("15","舌尖上的中国——松茸","http://sb474wnni.hb-bkt.clouddn.com/6a8c2855848372ff211a36bfd13bf4e6.mp4","你知道松茸为什么这么贵吗？",false,false);
-        Video video4 = new Video("16","手抓羊肉","http://sb474wnni.hb-bkt.clouddn.com/4b08357c4b20c84c57a6de96c1a912bd.mp4","煮羊肉时不放盐，出锅装盘才放盐。这羊肉好嫩，想吃！",false,false);
-        Video video5 = new Video("17","风味人间--蟹","http://sb474wnni.hb-bkt.clouddn.com/75813cbd07d6468e00c0d9c38d804960.mp4","风味人间——蟹",false,false);
-        Video video6 = new Video("18","中国吉祥年","http://sb474wnni.hb-bkt.clouddn.com/8baaef752e0854ae5051d96b8f13e98a.mp4","团圆年｜我们的文化中国年：龙行龘龘",false,false);
+        Video video1 = new Video("13","鸣沙山月牙泉","http://sehasj10u.hb-bkt.clouddn.com/%E9%B8%A3%E6%B2%99%E5%B1%B1%E6%9C%88%E7%89%99%E6%B3%89.mp4","美丽的月牙泉",false,false);
+        Video video2 = new Video("14","传统婚礼","http://sehasj10u.hb-bkt.clouddn.com/%E4%BC%A0%E7%BB%9F%E4%B8%AD%E5%BC%8F%E5%A9%9A%E7%A4%BC.mp4","那个备婚两年刷爆全网的汉服婚礼正片来啦",false,false);
+        Video video3 = new Video("15","舌尖上的中国——松茸","http://sehasj10u.hb-bkt.clouddn.com/%E8%88%8C%E5%B0%96%E4%B8%8A%E7%9A%84%E4%B8%AD%E5%9B%BD%E2%80%94%E2%80%94%E6%9D%BE%E8%8C%B8.mp4","你知道松茸为什么这么贵吗？",false,false);
+        Video video4 = new Video("16","手抓羊肉","http://sehasj10u.hb-bkt.clouddn.com/%E6%89%8B%E6%8A%93%E7%BE%8A%E8%82%89.mp4","煮羊肉时不放盐，出锅装盘才放盐。这羊肉好嫩，想吃！",false,false);
+        Video video5 = new Video("17","风味人间--蟹","http://sehasj10u.hb-bkt.clouddn.com/%E9%A3%8E%E5%91%B3%E4%BA%BA%E9%97%B4%E2%80%94%E2%80%94%E8%9F%B9.mp4","风味人间——蟹",false,false);
+        Video video6 = new Video("18","中国吉祥年","http://sehasj10u.hb-bkt.clouddn.com/%E4%B8%AD%E5%9B%BD%E5%90%89%E7%A5%A5%E5%B9%B4.mp4","团圆年｜我们的文化中国年：龙行龘龘",false,false);
         videoList.add(video1);
         videoList.add(video2);
         videoList.add(video3);

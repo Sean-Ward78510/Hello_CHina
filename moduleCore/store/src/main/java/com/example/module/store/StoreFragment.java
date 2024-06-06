@@ -243,22 +243,22 @@ public class StoreFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         if (view.getId() == R.id.wenchuang || view.getId() == R.id.gugong_pic){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
-                    .withString("url","https://m.tb.cn/h.5tF0z7GqcwT5v0K") //https://www.shidianguji.com/  https://m.tb.cn/h.5tF0z7GqcwT5v0K
+                    .withString("url","https://m.tb.cn/h.gVNbrrzY91otjSm  ") //https://www.shidianguji.com/  https://m.tb.cn/h.5tF0z7GqcwT5v0K
                     .navigation();
         }
         if (view.getId() == R.id.chayun || view.getId() == R.id.cha_pic){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
-                    .withString("url","https://m.tb.cn/h.5tucIvQJL07WcsZ ")
+                    .withString("url"," https://m.tb.cn/h.g4LMHvK8jzoTmxH")
                     .navigation();
         }
         if (view.getId() == R.id.shuiguo || view.getId() == R.id.gua_pic){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
-                    .withString("url","https://m.tb.cn/h.5GvXsF1rFT7yn2H ")
+                    .withString("url","https://m.tb.cn/h.g4LLy5CoUuD8obM ")
                     .navigation();
         }
         if (view.getId() == R.id.jianiang || view.getId() == R.id.jiu_pic){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
-                    .withString("url","https://m.tb.cn/h.5uMzJRy1EootV8z")
+                    .withString("url","https://m.tb.cn/h.gVBuZ4MqwffC0Tx")
                     .navigation();
         }
     }

@@ -207,8 +207,8 @@ public class ResourceLibFragment extends Fragment implements View.OnClickListene
                     .navigation();
         }
         if (view.getId() == R.id.new_two){
-            ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
-                    .withString("url","https://www.xiangha.com/")
+            ARouter.getInstance().build("/modulePublic/showwebview/GeckoWebViewActivity")
+                    .withString("url","https://m.meishij.net/caixi/")
                     .navigation();
         }
         if (view.getId() == R.id.new_three){
@@ -216,8 +216,6 @@ public class ResourceLibFragment extends Fragment implements View.OnClickListene
                     .withString("url","https://www.dpm.org.cn/explore/buildings.html")
                     .navigation();
         }
-
-
         if (view.getId() == R.id.new_four){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
                     .withString("url","https://www.dpm.org.cn/collection/jewelrys.html")
@@ -235,7 +233,7 @@ public class ResourceLibFragment extends Fragment implements View.OnClickListene
         }
         if (view.getId() == R.id.story_two){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
-                    .withString("url","http://www.shenhuagushi.net/houyisheri.html")
+                    .withString("url","https://www.qigushi.com/zgsh/34.html")
                     .navigation();
         }
         if (view.getId() == R.id.story_three){
@@ -245,7 +243,7 @@ public class ResourceLibFragment extends Fragment implements View.OnClickListene
         }
         if (view.getId() == R.id.story_four){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
-                    .withString("url","https://so.gushiwen.cn/shiwenv_1104052ed0fc.aspx")
+                    .withString("url","https://www.qigushi.com/shenhuagushi/168.html")
                     .navigation();
         }
         if (view.getId() == R.id.story_five){
@@ -325,7 +323,7 @@ public class ResourceLibFragment extends Fragment implements View.OnClickListene
         }
         if (view.getId() == R.id.old_more){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
-                    .withString("url","https://www.shidianguji.com/")
+                    .withString("url","https://www.shidianguji.com/library?page_from=home_page")
                     .navigation();
         }
 

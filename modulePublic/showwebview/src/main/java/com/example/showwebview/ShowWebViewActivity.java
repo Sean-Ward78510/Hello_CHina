@@ -24,12 +24,18 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.module.showwebview.R;
 
 @Route(path = "/modulePublic/showwebview/ShowWebViewActivity")
-public class ShowWebViewActivity extends AppCompatActivity {
+public class ShowWebViewActivity extends AppCompatActivity implements  View.OnClickListener{
 
     ImageView imageView;
     TextView textView;
     LoadingAnimation loadingAnimation;
     LinearLayout optionBar;
+    ImageView like;
+    ImageView college;
+    ImageView transmit;
+
+    boolean isLike;
+    boolean isCollege;
 
     @Autowired(name = "url")
     String url;
@@ -44,9 +50,13 @@ public class ShowWebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_web_view);
         ARouter.getInstance().inject(this);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
+        initWidget();
+    }
+
+    public void initWidget(){
+        like = (ImageView) findViewById(R.id.like);
+        college = (ImageView) findViewById(R.id.college);
+        transmit = (ImageView) findViewById(R.id.transmit);
 
         imageView = (ImageView) findViewById(R.id.loading);
         textView = (TextView) findViewById(R.id.text);
@@ -80,6 +90,31 @@ public class ShowWebViewActivity extends AppCompatActivity {
         //... 有很多clear的方法
 
         webView.loadUrl(url);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.like){
+            if (isLike){
+                isLike = false;
+                like.setImageResource(R.drawable.article_dislike);
+            }else {
+                isLike = true;
+                like.setImageResource(R.drawable.article_like);
+            }
+        }
+        if (view.getId() == R.id.college){
+            if (isCollege){
+                isCollege = false;
+                college.setImageResource(R.drawable.article_discollect);
+            }else {
+                isCollege = true;
+                college.setImageResource(R.drawable.article_collect);
+            }
+        }
+        if (view.getId() == R.id.transmit){
+
+        }
     }
 
     class MyWebViewClient extends WebViewClient{
