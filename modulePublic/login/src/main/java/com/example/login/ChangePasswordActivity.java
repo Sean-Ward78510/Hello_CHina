@@ -180,7 +180,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
 
                     @Override
                     public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
+                        Log.d("TAG", "onFailure: ");
                     }
                 });
     }

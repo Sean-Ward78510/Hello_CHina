@@ -4,6 +4,7 @@ package com.example.module.home;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,19 +20,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.module.home.OKHttp.OkHttpsUtils;
 import com.example.tool.Entity.Fruit;
 import com.example.tool.Util.SERVER_IP;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 @Route(path = "/moduleCore/home/HomeFragment")
 public class HomeFragment extends Fragment implements View.OnClickListener{
-    private String Server_IP = SERVER_IP.Server_IP;
+    private String URL = SERVER_IP.Server_IP;
     private  RecyclerView recyclerView;
     private GridLayoutManager layoutManager;
     private TextView first;
@@ -41,6 +48,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private TextView new_two;
     private TextView new_three;
     private TextView new_four;
+    private HomeView homeView = new HomeView();
     private ImageView collect_one;
     private ImageView collect_two;
     private ImageView collect_three;
@@ -78,6 +86,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         ARouter.getInstance().inject(this);
         initFruits();
+        getNew();
+        getLifeNew();
+
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -148,6 +160,37 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         new_four.setOnClickListener(this);
 
     }
+    
+    public void getNew(){
+        OkHttpsUtils.getNew(URL, new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.d("TAG", "onFailure: ");
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String responseDate = response.body().string();
+                homeView.updateNew(responseDate);
+            }
+        });
+    }
+
+    public void getLifeNew(){
+        OkHttpsUtils.getLifeNew(URL, new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.d("TAG", "onFailure: ");
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String responseDate = response.body().string();
+                homeView.updateLifeNew(responseDate);
+            }
+        });
+    }
+    
     public void onClick(View view){
         if(view.getId() == R.id.first_name){
             ARouter.getInstance().build("/modulePublic/showwebview/ShowWebViewActivity")
@@ -203,5 +246,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     public void onResume() {
         super.onResume();
         galleryRecycle.start();
+    }
+
+    class HomeView{
+        String data;
+       public void updateNew(String data){
+
+        }
+
+        public void updateLifeNew(String data){
+
+        }
     }
 }
