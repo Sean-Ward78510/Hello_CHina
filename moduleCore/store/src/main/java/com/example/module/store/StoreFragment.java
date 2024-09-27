@@ -12,6 +12,8 @@ import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -40,6 +42,8 @@ import okhttp3.Response;
 public class StoreFragment extends Fragment implements View.OnClickListener {
     private String URL = SERVER_IP.Server_IP;
     private UpdateRes updateView;
+    private Toolbar toolbar;
+    AppCompatActivity activity;
     private ScrollView scrollView;
     private AppBarLayout appBarLayout;
     private TabLayout tabLayout;
@@ -85,6 +89,9 @@ public class StoreFragment extends Fragment implements View.OnClickListener {
         return view;
     }
     public void initWidget(View view){
+        toolbar = view.findViewById(R.id.toolBar);
+        activity = (AppCompatActivity)getActivity();
+        activity.setSupportActionBar(toolbar);
         appBarLayout = view.findViewById(R.id.appbar);
         scrollView = view.findViewById(R.id.ScrollView);
         tabLayout = view.findViewById(R.id.tablayout);
