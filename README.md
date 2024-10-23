@@ -12,12 +12,12 @@
 
 #### 首页
 
-![image](https://github.com/user-attachments/assets/f972614e-e9d8-4132-a297-41681aeeff92)
+![image](https://github.com/user-attachments/assets/4ec6f716-a025-4d8e-8278-d4cc14197425)
 
 #### 资源库
 
-![c50d3e686a7dc7f19ca505e04a8b24a](https://github.com/user-attachments/assets/c5ef86f4-8d0c-4bb8-9151-6e35b2e8d2b9)
-![d7beb99e2f48b05b78a993f0edfa39c](https://github.com/user-attachments/assets/228332be-6ded-437a-9623-d1a35c4f1f13)
+![image](https://github.com/user-attachments/assets/737cd616-5850-4424-80a1-dae72584e78d)
+![image](https://github.com/user-attachments/assets/f3f7b3aa-1941-4852-a8b1-786861d15329)
 
 #### 短视频
 
