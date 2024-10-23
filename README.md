@@ -12,7 +12,7 @@
 
 #### 首页
 
-![image](https://github.com/user-attachments/assets/ed5ba0fc-6dc8-4172-b251-90e778f4b0fc)
+![image](https://github.com/user-attachments/assets/f972614e-e9d8-4132-a297-41681aeeff92)
 
 #### 资源库
 
