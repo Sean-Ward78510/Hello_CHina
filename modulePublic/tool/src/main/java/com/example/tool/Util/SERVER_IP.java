@@ -9,7 +9,7 @@ package com.example.tool.Util;
  */
 
 public class SERVER_IP {
-    public static String Server_IP = "http://120.46.136.202:4567";
+    public static String Server_IP = "http://116.204.69.99:4567";
     public static String Server_College_Article = "/article/collect";
     public static String Server_Like_Article = "/article/like";
     public static String Server_Dislike_Article = "/article/like";
