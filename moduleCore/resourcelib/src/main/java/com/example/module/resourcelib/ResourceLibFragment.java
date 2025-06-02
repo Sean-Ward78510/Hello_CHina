@@ -365,7 +365,7 @@ public class ResourceLibFragment extends Fragment implements View.OnClickListene
         }
         if (view.getId() == R.id.new_two){
             ARouter.getInstance().build("/modulePublic/showwebview/GeckoWebViewActivity")
-                    .withString("url","https://m.meishij.net/caixi/")
+                    .withString("url","https://m.meishijie.cc/")
                     .navigation();
         }
         if (view.getId() == R.id.new_three){
